@@ -1,0 +1,84 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "EB Garamond", serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+}
+
+.login_bg {
+  background-image: linear-gradient(to left, rgba(27, 53, 87, 0.8), rgba(12, 53, 77, 0.9));
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.login_design {
+  background-color: rgb(249, 249, 250);
+}
+
+.dash_content {
+  background-color: rgb(248, 213, 148);
+}
+
+.form1 {
+  margin-top: 50px;
+  border-radius: 8px;
+  background-color: white;
+  border: 1ps solid white;
+  box-shadow: 1px 1px 1px 1px rgb(240, 238, 238);
+  padding: 30px;
+  max-width: 400px;
+  width: 100%;
+
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+}
+
+.select1 {
+  transition: 0.4s ease-in;
+}
+
+.select1:hover {
+  background-color: rgb(247, 225, 196);
+  padding-left: px;
+}
+
+.format {
+  background-color: rgb(195, 247, 217);
+}
+
+/* registration styles */
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+  top: 13px;
+}
+
+.img-fluid {
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+/* table style */
+@media (min-width: 344px) and (max-width: 882px) {
+  .produce {
+    /* width: 20% !important;
+    margin: 40px !important; */
+  }
+}
