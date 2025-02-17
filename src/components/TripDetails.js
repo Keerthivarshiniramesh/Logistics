@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import logo from '../assest/logistics_logo.png';
 import { useNavigate } from 'react-router-dom';
 import cargo from '../assest/cargo.png';
+import Sidebar from './Sidebar';
+import Header from './Header';
 
 
 export default function TripDetails() {
 
     const [sideBar, setSidebar] = useState(false);
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [change, setChange] = useState('Trip')
     const use = useNavigate();
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
@@ -16,88 +19,95 @@ export default function TripDetails() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const vehicles = [
-        {
-            vehicleNumber: "TN10AB1234",
-            name: "Truck-001",
-            manufacturer: "Tata",
-            yearOfManufacture: 2020,
-            type: "Heavy Truck",
-            desc: "Regular maintenance required"
-        },
-        {
-            vehicleNumber: "TN10AB1256",
-            name: "Truck-002",
-            manufacturer: "AL",
-            yearOfManufacture: 2021,
-            type: "Truck",
-            desc: "Regular maintenance required"
-        }
-    ];
+
+
+    const trips = [{
+        id: 1,
+        vehicleNumber: "TN10AB1234",
+        employeeId: 2,
+        startLocation: "Erode",
+        endLocation: "Chennai",
+        startTime: "2024-02-01T08:00:00Z",
+        endTime: "2024-02-02T22:00:00Z",
+        status: "in-transit",
+        expenses: [
+            { "expenseID": "EXP001", "type": "vehicle", "amount": 5000, "description": "Fuel" },
+            { "expenseID": "EXP002", "type": "toll", "amount": 2000, "description": "Toll Charges" },
+            { "expenseID": "EXP003", "type": "other", "amount": 2000, "description": "Other Charges" },
+            { "expenseID": "EXP004", "type": "salary", "employeeID": 2, "amount": 3000, "description": "Driver salary" }
+        ]
+    },
+    {
+        id: 2,
+        vehicleNumber: "TN10AB1256",
+        employeeId: 1,
+        startLocation: "Covai",
+        endLocation: "Chennai",
+        startTime: "2024-02-01T08:00:00Z",
+        endTime: "2024-02-02T22:00:00Z",
+        status: "Delivered",
+        expenses: [
+            { expenseID: "EXP001", type: "vehicle", amount: 5000, desc: "Fuel" },
+            { expenseID: "EXP002", type: "toll", amount: 2000, desc: "Toll Charges" },
+            { expenseID: "EXP003", type: "other", amount: 2000, desc: "Other Charges" },
+            { expenseID: "EXP004", type: "salary", amount: 3000, desc: "Driver salary" }
+        ]
+    }
+    ]
+
+
+    function Change(e, values) {
+        e.preventDefault();
+        setChange(values);
+
+        setTimeout(() => {
+            if (values === "Home") use("/dashboard");
+            else if (values === "Vehicle") use("/vehicle-details");
+            else if (values === "Employee") use("/employee_details");
+            else if (values === "Trip") use("/trip_details");
+        }, 200);
+    }
 
 
 
     return (
         <div className="d-flex vh-100 overflow-x-hidden">
-            {/* Sidebar */}
-            <aside className={`bg-light text-black p-3 position-fixed h-100 ${sideBar ? "d-block" : "d-none d-md-block"} z-3`} style={{ width: "250px" }}>
-                <h2 className="h4">Admin Panel</h2>
-                <nav>
-                    <ul className="list-unstyled">
-                        <li className="p-2  m-5"><div className='select1 rounded'><i className="bi bi-house-fill text-success mx-1 fs-3 " onClick={() => use('/dashboard')}></i>Home</div></li>
-                        <li className="p-2 m-5"><div className='select1 rounded'><i className="bi bi-truck text-success mx-1 fs-3 " onClick={() => use('/vehicle-details')}></i>Vehicle</div></li>
-                        <li className="p-2 m-5"><div className='select1 rounded'><i className="bi bi-people-fill text-success mx-1 fs-3 " onClick={() => use('/employee_details')}></i>Employee</div></li>
-                        <li className="p-2 m-5"><div className='select1 rounded'><img src={cargo} style={{ width: '40px', height: '40px' }} className='mx-2 ' onClick={() => use('/employee_details')}></img>Trip</div></li>
-                    </ul>
-                </nav>
-            </aside>
+            {/* Sidebar Component */}
+            <Sidebar sideBar={sideBar} setSidebar={setSidebar} change={change} Change={Change} />
 
             {/* Main Content */}
-            <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || windowWidth >= 768 ? "250px" : "0" }}>
-                {/* Header */}
-                <header className="d-flex justify-content-between align-items-center bg-white p-3 shadow">
-                    <button className="btn btn-outline-secondary d-md-none" onClick={() => setSidebar(!sideBar)}>
-                        <i className="bi bi-list"></i>
-                    </button>
-                    <img src={logo} alt="Logo" style={{ height: "70px" }} />
-                    <div className="d-flex align-items-center gap-3">
-                        <div className="d-flex align-items-center gap-2">
-                            <i className="bi bi-person-circle text-primary fs-4"></i>
-                            <span>Admin1</span>
-                        </div>
-                        <div className="d-flex align-items-center gap-2">
-                            <i className="bi bi-box-arrow-right text-danger fs-4"></i>
-                            <span>Logout</span>
-                        </div>
-                    </div>
-                </header>
+            <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
+                {/* Header Component */}
+                <Header sideBar={sideBar} setSidebar={setSidebar} />
+
 
 
                 <main className="container-fluid py-4 flex-grow-1 dash_content">
-                    <button className='btn btn-success m-5 float-end' onClick={() => use('/vehicle')}>Create</button>
+                    <h3 className='text-center '>Trip Details</h3>
+                    <button className='btn btn-success m-5 float-end' onClick={() => use('/trip_register')}>Create</button>
                     <table className="table align-middle mb-0 bg-white table-striped">
                         <thead>
                             <tr>
                                 <th>S.No</th>
                                 <th>Vehicle No</th>
-                                <th>Name</th>
-                                <th>Year</th>
-                                <th>Type</th>
+                                <th>Employee Id</th>
+                                <th>Status</th>
+                                <th className='d-none d-md-table-cell'>No.of.Expenses</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {vehicles.map((vehi, index) => (
+                            {trips.map((trip, index) => (
                                 <tr key={index} className='tr-white'>
                                     <td className='fw-bold'>{index + 1}</td>
-                                    <td><p className="fw-normal mb-1">{vehi.vehicleNumber}</p></td>
-                                    <td><p className="fw-normal mb-1">{vehi.name}</p></td>
-                                    <td><p className="fw-normal mb-1">{vehi.yearOfManufacture}</p></td>
-                                    <td><p className="fw-normal mb-1">{vehi.type}</p></td>
+                                    <td><p className="fw-normal mb-1">{trip.vehicleNumber}</p></td>
+                                    <td><p className="fw-normal mb-1">{trip.employeeId}</p></td>
+                                    <td><span className={`badge  rounded-pill ${trip.status === 'in-transit' ? 'bg-success' : 'bg-danger'}`}>{trip.status}</span></td>
+                                    <td className='d-none d-md-table-cell'><p className="fw-normal mb-1">{trip.expenses.length}</p></td>
                                     <td>
                                         <i className="bi bi-trash-fill mx-2 px-1 text-danger"></i>
-                                        <i className="bi bi-pencil-square mx-2 px-1 text-primary" onClick={() => use(`/edit_vehicle/${vehi.vehicleNumber}`)}></i>
-                                        <i className="bi bi-eye-fill mx-2 px-1 text-success " onClick={() => use(`/view_vehicle/${vehi.vehicleNumber}`)}></i>
+                                        <i className="bi bi-pencil-square mx-2 px-1 text-primary" onClick={() => use(`/edit_trip/${trip.id}`)}></i>
+                                        <i className="bi bi-eye-fill mx-2 px-1 text-success " onClick={() => use(`/view_trips/${trip.id}`)}></i>
                                     </td>
                                 </tr>
                             ))}

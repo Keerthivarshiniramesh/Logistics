@@ -3,12 +3,21 @@ import logo from '../assest/logistics_logo.png'
 import register from '../assest/vehicle_register.jpg'
 import cargo from '../assest/cargo.png'
 import { useNavigate } from 'react-router-dom';
+import Sidebar from './Sidebar';
+import Header from './Header';
 
 export default function Vehicle() {
 
   const [sideBar, setSidebar] = useState(false);
   const use = useNavigate()
-  const [change, setChange] = useState('')
+  const [change, setChange] = useState('Vehicle')
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   let [vehicle, setVehicle] = useState({
     vehicleNumber: '',
@@ -44,67 +53,32 @@ export default function Vehicle() {
     e.preventDefault()
     console.log(vehicle)
   }
-  function Change(e, values) {
-    e.preventDefault()
-    setChange(values)
-    if (values === 'Home') {
-      setTimeout(() => {
-        use('/dashboard')
-      }, 200);
-    }
-    else if (values === 'Vehicle') {
-      setTimeout(() => {
-        use('/vehicle-details')
-      }, 200);
-    }
-    else if (values === 'Employee') {
-      setTimeout(() => {
-        use('/employee_details')
-      }, 200);
-    }
-    else {
-      setTimeout(() => {
-        use('/employee_edit')
-      }, 200);
-    }
 
+
+  function Change(e, values) {
+    e.preventDefault();
+    setChange(values);
+
+    setTimeout(() => {
+      if (values === "Home") use("/dashboard");
+      else if (values === "Vehicle") use("/vehicle-details");
+      else if (values === "Employee") use("/employee_details");
+      else if (values === "Trip") use("/trip_details");
+    }, 200);
   }
+
 
   return (
     <div className="d-flex vh-100 overflow-x-hidden ">
       {/* Sidebar */}
-      <aside className={`bg-light text-black p-3 position-fixed h-100 ${sideBar ? "" : "d-none d-md-block"}`} style={{ width: "250px" }}>
-        <h2 className="h4">Admin Panel</h2>
-        <nav>
-          <ul className="list-unstyled">
-            <li className={`p-2  m-5 ${change === 'Home' ? 'format' : ''}`} ><div className=''><i className="bi bi-house-fill text-success mx-1 fs-3 " onClick={(e) => Change(e, 'Home')}></i>Home</div></li>
-            <li className={` p-2  m-5 ${change === 'Vehicle' ? 'format' : ''}`}><div className=''><i className="bi bi-truck text-success mx-1 fs-3 " onClick={(e) => Change(e, 'Vehicle')}></i>Vehicle</div></li>
-            <li className={` p-2  m-5 ${change === 'Employee' ? 'format' : ''}`}><div className=''><i className="bi bi-people-fill text-success mx-1 fs-3 " onClick={(e) => Change(e, 'Employee')}></i>Employee</div></li>
-            <li className={`p-2  m-5 ${change === 'Trip' ? 'format' : ''}`}><div className=''><img src={cargo} style={{ width: '40px', height: '40px' }} className='mx-2 ' onClick={(e) => Change(e, 'Trip')}></img>Trip</div></li>
-          </ul>
-        </nav>
-      </aside>
-
+      {/* Sidebar Component */}
+      <Sidebar sideBar={sideBar} setSidebar={setSidebar} change={change} Change={Change} />
       {/* Main Content */}
       <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
 
-        {/* Header */}
-        <header className="d-flex justify-content-between align-items-center bg-white p-3 shadow">
-          <button className="btn btn-outline-secondary d-md-none" onClick={() => setSidebar(!sideBar)}>
-            <i className="bi bi-list"></i>
-          </button>
-          <img src={logo} alt="Logo" className="" style={{ height: "70px" }} />
-          <div className="d-flex align-items-center gap-3">
-            <div className="d-flex align-items-center gap-2">
-              <i className="bi bi-person-circle text-primary fs-4"></i>
-              <span>Admin1</span>
-            </div>
-            <div className="d-flex align-items-center gap-2">
-              <i className="bi bi-box-arrow-right text-danger fs-4"></i>
-              <span>Logout</span>
-            </div>
-          </div>
-        </header>
+        {/* Header Component */}
+        <Header sideBar={sideBar} setSidebar={setSidebar} />
+
 
         {/* Dashboard Cards */}
         <main className="container-fluid py-4  flex-grow-1 dash_content">
@@ -128,7 +102,7 @@ export default function Vehicle() {
 
 
                           <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form3Example8">Vehicle Name </label>
+                            <label className="form-label" htmlFor="form3Example8">Vehicle Number </label>
                             <input type="text" id="form3Example8" className="form-control form-control-lg" value={vehicle.vehicleNumber} onChange={(e) => Create(e, 'vehicleNumber')} />
 
                           </div>
@@ -164,10 +138,7 @@ export default function Vehicle() {
                           <div data-mdb-input-init className="form-outline mb-4">
                             <label className="form-label" htmlFor="form3Example99">Description</label>
                             <input type="text" id="form3Example99" className="form-control form-control-lg" value={vehicle.description} onChange={(e) => Create(e, 'description')} />
-
                           </div>
-
-
 
                           <div className="d-flex justify-content-end pt-3">
                             <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-light btn-lg" onClick={() => use('/vehicle-details')}>Cancel</button>

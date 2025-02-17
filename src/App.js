@@ -12,6 +12,10 @@ import EmployeeDetails from './components/EmployeeDetails';
 import EmployeeRegister from './components/EmployeeRegister';
 import EditEmployee from './components/EditEmployee';
 import ViewEmployee from './components/ViewEmployee';
+import TripDetails from './components/TripDetails';
+import TripRegister from './components/TripRegister';
+import EditTrip from './components/EditTrip';
+import ViewTrips from './components/ViewTrips';
 
 
 function App() {
@@ -33,7 +37,10 @@ function App() {
         <Route path='/employee_register' element={<EmployeeRegister />} />
         <Route path='/employee_edit/:id' element={<EditEmployee />} />
         <Route path='/employee_view/:id' element={<ViewEmployee />} />
-
+        <Route path='/trip_details' element={<TripDetails />} />
+        <Route path='/trip_register' element={<TripRegister />} />
+        <Route path='/edit_trip/:id' element={<EditTrip />} />
+        <Route path='/view_trips/:id' element={<ViewTrips />} />
       </Routes>
     </>
 

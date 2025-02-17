@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import logo from '../assest/logistics_logo.png';
-import cargo from '../assest/cargo.png';
+import Header from './Header';
+import Sidebar from './Sidebar';
 
 export default function EmployeeDetails() {
     const [sideBar, setSidebar] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-      const [change, setChange] = useState('')
+    const [change, setChange] = useState('Employee')
     const use = useNavigate();
 
     useEffect(() => {
@@ -39,74 +39,42 @@ export default function EmployeeDetails() {
     }
     ];
 
-    function Change(e, values) {
-        e.preventDefault()
-        setChange(values)
-        if (values === 'Home') {
-            setTimeout(() => {
-                use('/dashboard')
-            }, 200);
-        }
-        else if (values === 'Vehicle') {
-            setTimeout(() => {
-                use('/vehicle-details')
-            }, 200);
-        }
-        else if (values === 'Employee') {
-            setTimeout(() => {
-                use('/employee_details')
-            }, 200);
-        }
-        else {
-            setTimeout(() => {
-                use('/employee_edit')
-            }, 200);
-        }
 
+    function Change(e, values) {
+        e.preventDefault();
+        setChange(values);
+
+        setTimeout(() => {
+            if (values === "Home") use("/dashboard");
+            else if (values === "Vehicle") use("/vehicle-details");
+            else if (values === "Employee") use("/employee_details");
+            else if (values === "Trip") use("/trip_details");
+        }, 200);
     }
+
 
     return (
         <div className="d-flex vh-100 overflow-x-hidden">
             {/* Sidebar */}
-            <aside className={`bg-light text-black p-3 position-fixed h-100 ${sideBar ? "d-block" : "d-none d-md-block"} z-3`} style={{ width: "250px" }}>
-                <h2 className="h4">Admin Panel</h2>
-                <ul className="list-unstyled">
-                    <li className={`p-2  m-5 ${change === 'Home' ? 'format' : ''}`} ><div className=''><i className="bi bi-house-fill text-success mx-1 fs-3 " onClick={(e) => Change(e, 'Home')}></i>Home</div></li>
-                    <li className={` p-2  m-5 ${change === 'Vehicle' ? 'format' : ''}`}><div className=''><i className="bi bi-truck text-success mx-1 fs-3 " onClick={(e) => Change(e, 'Vehicle')}></i>Vehicle</div></li>
-                    <li className={` p-2  m-5 ${change === 'Employee' ? 'format' : ''}`}><div className=''><i className="bi bi-people-fill text-success mx-1 fs-3 " onClick={(e) => Change(e, 'Employee')}></i>Employee</div></li>
-                    <li className={`p-2  m-5 ${change === 'Trip' ? 'format' : ''}`}><div className=''><img src={cargo} style={{ width: '40px', height: '40px' }} className='mx-2 ' onClick={(e) => Change(e, 'Trip')}></img>Trip</div></li>
-                </ul>
-            </aside>
+            {/* Sidebar Component */}
+            <Sidebar sideBar={sideBar} setSidebar={setSidebar} change={change} Change={Change} />
 
             {/* Main Content */}
             <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || windowWidth >= 768 ? "250px" : "0" }}>
                 {/* Header */}
-                <header className="d-flex justify-content-between align-items-center bg-white p-3 shadow">
-                    <button className="btn btn-outline-secondary d-md-none" onClick={() => setSidebar(!sideBar)}>
-                        <i className="bi bi-list"></i>
-                    </button>
-                    <img src={logo} alt="Logo" style={{ height: "70px" }} />
-                    <div className="d-flex align-items-center gap-3">
-                        <div className="d-flex align-items-center gap-2">
-                            <i className="bi bi-person-circle text-primary fs-4"></i>
-                            <span>Admin1</span>
-                        </div>
-                        <div className="d-flex align-items-center gap-2">
-                            <i className="bi bi-box-arrow-right text-danger fs-4"></i>
-                            <span>Logout</span>
-                        </div>
-                    </div>
-                </header>
+                {/* Header Component */}
+                <Header sideBar={sideBar} setSidebar={setSidebar} />
 
 
                 <main className="container-fluid py-4 flex-grow-1 dash_content">
+                    <h3 className='text-center '>Employee Details</h3>
                     <button className='btn btn-success m-5 float-end' onClick={() => use('/employee_register')}>Create</button>
                     <table className="table align-middle mb-0 bg-white table-striped">
                         <thead>
                             <tr>
                                 <th>S.No</th>
                                 <th>Name</th>
-                                <th>Joined Date</th>
+                                <th className='d-none d-md-table-cell'>Joined Date</th>
                                 <th>Status</th>
                                 <th>Trips</th>
                                 <th>Actions</th>
@@ -117,7 +85,7 @@ export default function EmployeeDetails() {
                                 <tr key={index} className='tr-white'>
                                     <td className='fw-bold'>{index + 1}</td>
                                     <td><p className="fw-normal mb-1">{emp.name}</p></td>
-                                    <td><p className="fw-normal mb-1">{emp.joinedDate}</p></td>
+                                    <td className='d-none d-md-table-cell'><p className="fw-normal mb-1">{emp.joinedDate}</p></td>
                                     <td> <span className="badge bg-success rounded-pill">{emp.workingStatus}</span></td>
                                     <td><p className="fw-normal mb-1">{emp.drivenTrips}</p></td>
                                     <td>

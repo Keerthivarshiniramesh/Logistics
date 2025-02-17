@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../assest/logistics_logo.png'
-import cargo from '../assest/cargo.png'
 import view_emp from '../assest/employee_view.png'
 import { useNavigate, useParams } from 'react-router-dom';
+import Sidebar from './Sidebar';
+import Header from './Header';
 
 export default function ViewEmployee() {
 
     const [sideBar, setSidebar] = useState(false);
-    const [change, setChange] = useState('')
+    const [change, setChange] = useState('Employee')
     const use = useNavigate()
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
 
     const employees = [{
         id: 1,
@@ -54,67 +62,31 @@ export default function ViewEmployee() {
         }
     }, [])
 
-    function Change(e, values) {
-        e.preventDefault()
-        setChange(values)
-        if (values === 'Home') {
-            setTimeout(() => {
-                use('/dashboard')
-            }, 200);
-        }
-        else if (values === 'Vehicle') {
-            setTimeout(() => {
-                use('/vehicle-details')
-            }, 200);
-        }
-        else if (values === 'Employee') {
-            setTimeout(() => {
-                use('/employee_details')
-            }, 200);
-        }
-        else {
-            setTimeout(() => {
-                use('/employee_edit')
-            }, 200);
-        }
 
+    function Change(e, values) {
+        e.preventDefault();
+        setChange(values);
+
+        setTimeout(() => {
+            if (values === "Home") use("/dashboard");
+            else if (values === "Vehicle") use("/vehicle-details");
+            else if (values === "Employee") use("/employee_details");
+            else if (values === "Trip") use("/trip_details");
+        }, 200);
     }
+
 
     return (
         <div className="d-flex vh-100 overflow-x-hidden ">
-            {/* Sidebar */}
-            <aside className={`bg-light text-black p-3 position-fixed h-100 ${sideBar ? "" : "d-none d-md-block"}`} style={{ width: "250px" }}>
-                <h2 className="h4">Admin Panel</h2>
-                <nav>
-                    <ul className="list-unstyled">
-                        <li className="p-2  m-5"><div className='select1 rounded'><i className="bi bi-house-fill text-success mx-1 fs-3 " onClick={() => use('/dashboard')}></i>Home</div></li>
-                        <li className="p-2 m-5"><div className='select1 rounded'><i className="bi bi-truck text-success mx-1 fs-3 " onClick={() => use('/vehicle-details')}></i>Vehicle</div></li>
-                        <li className="p-2 m-5"><div className='select1 rounded'><i className="bi bi-people-fill text-success mx-1 fs-3 " onClick={() => use('/employee_details')}></i>Employee</div></li>
-                        <li className="p-2 m-5"><div className='select1 rounded'><img src={cargo} style={{ width: '40px', height: '40px' }} className='mx-2 ' onClick={() => use('/employee_details')}></img>Trip</div></li>
-                    </ul>
-                </nav>
-            </aside>
+            {/* Sidebar Component */}
+            <Sidebar sideBar={sideBar} setSidebar={setSidebar} change={change} Change={Change} />
 
             {/* Main Content */}
             <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
 
-                {/* Header */}
-                <header className="d-flex justify-content-between align-items-center bg-white p-3 shadow">
-                    <button className="btn btn-outline-secondary d-md-none" onClick={() => setSidebar(!sideBar)}>
-                        <i className="bi bi-list"></i>
-                    </button>
-                    <img src={logo} alt="Logo" className="" style={{ height: "70px" }} />
-                    <div className="d-flex align-items-center gap-3">
-                        <div className="d-flex align-items-center gap-2">
-                            <i className="bi bi-person-circle text-primary fs-4"></i>
-                            <span>Admin1</span>
-                        </div>
-                        <div className="d-flex align-items-center gap-2">
-                            <i className="bi bi-box-arrow-right text-danger fs-4"></i>
-                            <span>Logout</span>
-                        </div>
-                    </div>
-                </header>
+                {/* Header Component */}
+                <Header sideBar={sideBar} setSidebar={setSidebar} />
+
 
                 {/* Dashboard Cards */}
                 <main className="container-fluid py-4  flex-grow-1 dash_content">
