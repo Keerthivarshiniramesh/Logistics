@@ -75,10 +75,3 @@ body {
   border-bottom-left-radius: .25rem;
 }
 
-/* table style */
-@media (min-width: 344px) and (max-width: 882px) {
-  .produce {
-    /* width: 20% !important;
-    margin: 40px !important; */
-  }
-}

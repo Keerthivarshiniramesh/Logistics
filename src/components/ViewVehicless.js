@@ -107,37 +107,37 @@ export default function ViewVehicless() {
 
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label  fw-bold fs-6" htmlFor="form1">Vehicle Number : </label>
+                                                        <label className="form-label  fw-bold fs-6" >Vehicle Number : </label>
                                                         <p className='ps-3 d-inline-block'>{view.vehicleNumber}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label  fw-bold fs-6" htmlFor="form2">Name :</label>
+                                                        <label className="form-label  fw-bold fs-6" >Name :</label>
                                                         <p className='ps-3 d-inline-block'>{view.name}</p>
                                                     </div>
 
 
                                                     <div className="form-outline mb-4">
-                                                        <label className="form-label  fw-bold fs-6" htmlFor="form3">Manufacturer : </label>
+                                                        <label className="form-label  fw-bold fs-6" >Manufacturer : </label>
                                                         <p className='ps-3 d-inline-block'>{view.manufacturer}</p>
 
                                                     </div>
 
 
                                                     <div className="form-outline mb-4">
-                                                        <label className="form-label  fw-bold fs-6" htmlFor="form4"> Year of Manufacture : </label>
+                                                        <label className="form-label  fw-bold fs-6" > Year of Manufacture : </label>
                                                         <p className='ps-3 d-inline-block'>{view.yearOfManufacture}</p>
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label  fw-bold fs-6" htmlFor="form5">Type : </label>
+                                                        <label className="form-label  fw-bold fs-6" >Type : </label>
                                                         <p className='ps-3 d-inline-block'>{view.type}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form6">Description :</label>
+                                                        <label className="form-label fw-bold fs-6" >Description :</label>
                                                         <p className='ps-3 d-inline-block'>{view.desc}</p>
 
                                                     </div>
@@ -145,7 +145,6 @@ export default function ViewVehicless() {
 
 
                                                     <div className="d-flex justify-content-end pt-3">
-
                                                         <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-success btn-lg ms-2 " onClick={() => use('/vehicle-details')}>Cancel</button>
                                                     </div>
 

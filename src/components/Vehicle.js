@@ -102,21 +102,21 @@ export default function Vehicle() {
 
 
                           <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form3Example8">Vehicle Number </label>
-                            <input type="text" id="form3Example8" className="form-control form-control-lg" value={vehicle.vehicleNumber} onChange={(e) => Create(e, 'vehicleNumber')} />
+                            <label className="form-label" htmlFor="form1">Vehicle Number </label>
+                            <input type="text" id="form1" className="form-control form-control-lg" value={vehicle.vehicleNumber} onChange={(e) => Create(e, 'vehicleNumber')} />
 
                           </div>
 
                           <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form3Example8">Name</label>
-                            <input type="text" id="form3Example8" className="form-control form-control-lg" value={vehicle.name} onChange={(e) => Create(e, 'name')} />
+                            <label className="form-label" htmlFor="form2">Name</label>
+                            <input type="text" id="form2" className="form-control form-control-lg" value={vehicle.name} onChange={(e) => Create(e, 'name')} />
 
                           </div>
 
 
                           <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form3Example8">Manufacturer</label>
-                            <input type="text" id="form3Example8" className="form-control form-control-lg" value={vehicle.manufacturer} onChange={(e) => Create(e, 'manufacturer')} />
+                            <label className="form-label" htmlFor="form3">Manufacturer</label>
+                            <input type="text" id="form3" className="form-control form-control-lg" value={vehicle.manufacturer} onChange={(e) => Create(e, 'manufacturer')} />
 
                           </div>
 
@@ -124,20 +124,20 @@ export default function Vehicle() {
 
 
                           <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form3Example9">YearofManufacturer</label>
-                            <input type="text" id="form3Example9" className="form-control form-control-lg" value={vehicle.year} onChange={(e) => Create(e, 'year')} />
+                            <label className="form-label" htmlFor="form4">YearofManufacturer</label>
+                            <input type="text" id="form4" className="form-control form-control-lg" value={vehicle.year} onChange={(e) => Create(e, 'year')} />
 
                           </div>
 
                           <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form3Example90">Type</label>
-                            <input type="text" id="form3Example90" className="form-control form-control-lg" value={vehicle.type} onChange={(e) => Create(e, 'type')} />
+                            <label className="form-label" htmlFor="form5">Type</label>
+                            <input type="text" id="form5" className="form-control form-control-lg" value={vehicle.type} onChange={(e) => Create(e, 'type')} />
 
                           </div>
 
                           <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form3Example99">Description</label>
-                            <input type="text" id="form3Example99" className="form-control form-control-lg" value={vehicle.description} onChange={(e) => Create(e, 'description')} />
+                            <label className="form-label" htmlFor="form6">Description</label>
+                            <input type="text" id="form6" className="form-control form-control-lg" value={vehicle.description} onChange={(e) => Create(e, 'description')} />
                           </div>
 
                           <div className="d-flex justify-content-end pt-3">

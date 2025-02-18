@@ -204,8 +204,8 @@ export default function EditTrip() {
                                                     </div>
 
                                                     <div className="form-outline mb-4">
-                                                        <label className="form-label fw-bold" htmlFor="form3">End Location</label>
-                                                        <input type="tel" id="form3" className="form-control form-control-lg" value={edit.endLocation || ''}
+                                                        <label className="form-label fw-bold" htmlFor="forms">End Location</label>
+                                                        <input type="tel" id="forms" className="form-control form-control-lg" value={edit.endLocation || ''}
                                                             onChange={(e) => setEdit({ ...edit, endLocation: e.target.value })} />
 
                                                     </div>
@@ -222,8 +222,8 @@ export default function EditTrip() {
                                                     </div>
 
                                                     <div className="form-outline mb-4">
-                                                        <label className="form-label fw-bold" htmlFor="form4"> End Date</label>
-                                                        <input type="date" id="form4" className="form-control form-control-lg"
+                                                        <label className="form-label fw-bold" htmlFor="form5"> End Date</label>
+                                                        <input type="date" id="form5" className="form-control form-control-lg"
                                                             value={edit.endTime ? edit.endTime.split('T')[0] : ''} // Ensure it's binding correctly
                                                             onChange={(e) => setEdit({
                                                                 ...edit, endTime: e.target.value
@@ -232,7 +232,7 @@ export default function EditTrip() {
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label me-3 fw-bold" htmlFor="form2">Status</label>
+                                                        <label className="form-label me-3 fw-bold" >Status</label>
                                                         <select data-mdb-select-init value={edit.status} onChange={(e) => setEdit({ ...edit, status: e.target.value })}>
                                                             <option value=""> Select Status</option>
                                                             <option value="Processed">Processed</option>
@@ -243,7 +243,7 @@ export default function EditTrip() {
 
                                                     </div>
 
-                                                    <label className="form-label fs-5 text-primary fw-bold" htmlFor="form7">Expenses</label>
+                                                    <label className="form-label fs-5 text-primary fw-bold" >Expenses</label>
                                                     {
                                                         edit.expenses.map((expense, index) =>
                                                         (
@@ -260,25 +260,25 @@ export default function EditTrip() {
 
 
                                                                     <div className=''>
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 mb-4">
+                                                                        <div className="row">
+                                                                            <div className="col-md-6 mb-4">
                                                                                 <div data-mdb-input-init class="form-outline">
-                                                                                    <label class="form-label fw-bold" for="form3Example1m">Type</label>
-                                                                                    <input type="text" id="form3Example1m" class="form-control form-control-lg" value={expense.type} onChange={(e) => ExpenseEdit(e, index, 'type')} />
+                                                                                    <label className="form-label fw-bold" for="form6">Type</label>
+                                                                                    <input type="text" id="form6" className="form-control form-control-lg" value={expense.type} onChange={(e) => ExpenseEdit(e, index, 'type')} />
 
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-md-6 mb-4">
-                                                                                <div data-mdb-input-init class="form-outline">
-                                                                                    <label class="form-label fw-bold" for="form3Example1n">Amount</label>
-                                                                                    <input type="text" id="form3Example1n" class="form-control form-control-lg" value={expense.amount} onChange={(e) => ExpenseEdit(e, index, 'amount')} />
+                                                                            <div className="col-md-6 mb-4">
+                                                                                <div data-mdb-input-init className="form-outline">
+                                                                                    <label className="form-label fw-bold" for="form7">Amount</label>
+                                                                                    <input type="text" id="form7" className="form-control form-control-lg" value={expense.amount} onChange={(e) => ExpenseEdit(e, index, 'amount')} />
 
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div data-mdb-input-init class="form-outline mb-4">
-                                                                            <label class="form-label fw-bold" for="form3Example8">Desc</label>
-                                                                            <input type="text" id="form3Example8" class="form-control form-control-lg" value={expense.desc} onChange={(e) => ExpenseEdit(e, index, 'desc')} />
+                                                                        <div data-mdb-input-init className="form-outline mb-4">
+                                                                            <label className="form-label fw-bold" for="form8">Desc</label>
+                                                                            <input type="text" id="form8" className="form-control form-control-lg" value={expense.desc} onChange={(e) => ExpenseEdit(e, index, 'desc')} />
 
                                                                         </div>
                                                                     </div>

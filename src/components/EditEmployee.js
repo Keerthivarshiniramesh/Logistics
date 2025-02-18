@@ -173,10 +173,10 @@ export default function EditEmployee() {
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form6">Identity Number</label>
+                                                        <label className="form-label" htmlFor="form7">Identity Number</label>
                                                         <input
                                                             type="text"
-                                                            id="form6"
+                                                            id="form7"
                                                             className="form-control form-control-lg"
                                                             value={edit.identityNumber || ''} // Ensure it's binding correctly
                                                             onChange={(e) => setEdit({ ...edit, identityNumber: e.target.value })}
@@ -185,10 +185,10 @@ export default function EditEmployee() {
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form6">Driven Trips</label>
+                                                        <label className="form-label" htmlFor="form8">Driven Trips</label>
                                                         <input
                                                             type="text"
-                                                            id="form6"
+                                                            id="form8"
                                                             className="form-control form-control-lg"
                                                             value={edit.drivenTrips || ''} // Ensure it's binding correctly
                                                             onChange={(e) => setEdit({ ...edit, drivenTrips: e.target.value })}

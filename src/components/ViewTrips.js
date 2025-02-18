@@ -129,56 +129,56 @@ export default function ViewTrips() {
                                             </div>
                                             <div className="col-xl-6">
                                                 <div className="card-body p-md-5 text-black">
-                                                    <h3 className="mb-5 text-uppercase text-center">  Employee Details</h3>
+                                                    <h3 className="mb-5 text-uppercase text-center">  Trip Details</h3>
 
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form1">Vehicle Number : </label>
+                                                        <label className="form-label fw-bold fs-6" >Vehicle Number : </label>
                                                         <p className='ps-3 d-inline-block'>{view.vehicleNumber}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form2">Employee Id : </label>
+                                                        <label className="form-label fw-bold fs-6" >Employee Id : </label>
                                                         <p className='ps-3 d-inline-block'>{view.employeeId}</p>
 
                                                     </div>
 
 
                                                     <div className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form3"> Start Location: </label>
+                                                        <label className="form-label fw-bold fs-6" > Start Location: </label>
                                                         <p className='ps-3 d-inline-block'>{view.startLocation}</p>
 
                                                     </div>
 
 
                                                     <div className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form4"> End Location : </label>
+                                                        <label className="form-label fw-bold fs-6" > End Location : </label>
                                                         <p className='ps-3 d-inline-block'>{view.endLocation}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form5">Start Date : </label>
+                                                        <label className="form-label fw-bold fs-6" >Start Date : </label>
                                                         <p className='ps-3 d-inline-block'>{view.startTime}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6 " htmlFor="form6">End Date: </label>
+                                                        <label className="form-label fw-bold fs-6 " >End Date: </label>
                                                         <p className='ps-3 d-inline-block'>{view.endTime}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form6">Status : </label>
+                                                        <label className="form-label fw-bold fs-6" >Status : </label>
                                                         <p className={`badge ps-3 d-inline-block ${view.status === 'in-transit' ? 'bg-success' : 'bg-danger'}`}>{view.status}</p>
 
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form6">Expenses : </label>
+                                                        <label className="form-label fw-bold fs-6">Expenses : </label>
                                                         <div className=" d-flex flex-xxl-nowrap flex-sm-wrap flex-md-wrap flex-lg-nowrap">
                                                             {
                                                                 view.expenses.map((expense, index) =>
@@ -194,21 +194,21 @@ export default function ViewTrips() {
                                                         </div>
                                                     </div>
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form6">Earned Income  : </label>
+                                                        <label className="form-label fw-bold fs-6" >Earned Income  : </label>
                                                         <p className={`ps-3 d-inline-block `}>{view.earnedIncome}</p>
 
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form6">Total Expenses : </label>
+                                                        <label className="form-label fw-bold fs-6" >Total Expenses : </label>
                                                         <p className={` ps-3 d-inline-block `}>{view.totalExpenses}</p>
 
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form6">Profit : </label>
+                                                        <label className="form-label fw-bold fs-6" >Profit : </label>
                                                         <p className={` ps-3 d-inline-block `}>{view.profit}</p>
 
 

@@ -109,52 +109,52 @@ export default function ViewEmployee() {
 
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form1">Name : </label>
+                                                        <label className="form-label fw-bold fs-6" >Name : </label>
                                                         <p className='ps-3 d-inline-block'>{view.name}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form2">Joined Date : </label>
+                                                        <label className="form-label fw-bold fs-6" >Joined Date : </label>
                                                         <p className='ps-3 d-inline-block'>{view.joinedDate}</p>
 
                                                     </div>
 
 
                                                     <div className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form3">Working Status : </label>
+                                                        <label className="form-label fw-bold fs-6" >Working Status : </label>
                                                         <p className='ps-3 d-inline-block'>{view.workingStatus}</p>
 
                                                     </div>
 
 
                                                     <div className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form4"> Releaved On : </label>
+                                                        <label className="form-label fw-bold fs-6" > Releaved On : </label>
                                                         <p className='ps-3 d-inline-block'>{view.releavedOn}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form5">Address : </label>
+                                                        <label className="form-label fw-bold fs-6" >Address : </label>
                                                         <p className='ps-3 d-inline-block'>{view.address}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6 " htmlFor="form6">Identity Type : </label>
+                                                        <label className="form-label fw-bold fs-6 " >Identity Type : </label>
                                                         <p className='ps-3 d-inline-block'>{view.identityType}</p>
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form6">Identity Number : </label>
+                                                        <label className="form-label fw-bold fs-6" >Identity Number : </label>
                                                         <p className='ps-3 d-inline-block'>{view.identityNumber}</p>
 
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" htmlFor="form6">Driven Trips : </label>
+                                                        <label className="form-label fw-bold fs-6" >Driven Trips : </label>
                                                         <p className='ps-3 d-inline-block'>{view.drivenTrips}</p>
                                                     </div>
 

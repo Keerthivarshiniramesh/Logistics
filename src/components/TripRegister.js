@@ -150,7 +150,7 @@ export default function TripRegister() {
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label me-3" htmlFor="form2">Employee Id  </label>
+                                                        <label className="form-label me-3" >Employee Id  </label>
                                                         <select data-mdb-select-init value={trips.employeeId} onChange={(e) => Create(e, 'employeeId')}>
                                                             <option value=""> Select Employee Id</option>
                                                             <option value="1">1</option>
@@ -183,13 +183,13 @@ export default function TripRegister() {
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form7">End Date</label>
-                                                        <input type="date" id="form7" className="form-control form-control-lg" value={trips.endTime} onChange={(e) => Create(e, 'endTime')} />
+                                                        <label className="form-label" htmlFor="form6">End Date</label>
+                                                        <input type="date" id="form6" className="form-control form-control-lg" value={trips.endTime} onChange={(e) => Create(e, 'endTime')} />
 
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label me-3" htmlFor="form2">Status</label>
+                                                        <label className="form-label me-3" >Status</label>
                                                         <select data-mdb-select-init value={trips.status} onChange={(e) => Create(e, 'status')}>
                                                             <option value=""> Select Status</option>
                                                             <option value="Processed">Processed</option>
@@ -200,26 +200,26 @@ export default function TripRegister() {
 
                                                     </div>
 
-                                                    <label className="form-label fs-5 text-primary fw-bold" htmlFor="form7">Expenses</label>
+                                                    <label className="form-label fs-5 text-primary fw-bold" >Expenses</label>
                                                     <div class="row">
                                                         <div class="col-md-6 mb-4">
                                                             <div data-mdb-input-init class="form-outline">
-                                                                <label class="form-label" for="form3Example1m">Type</label>
-                                                                <input type="text" id="form3Example1m" class="form-control form-control-lg" ref={typeRef} />
+                                                                <label class="form-label" for="form7">Type</label>
+                                                                <input type="text" id="form7" class="form-control form-control-lg" ref={typeRef} />
 
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 mb-4">
                                                             <div data-mdb-input-init class="form-outline">
-                                                                <label class="form-label" for="form3Example1n">Amount</label>
-                                                                <input type="text" id="form3Example1n" class="form-control form-control-lg" ref={amountRef} />
+                                                                <label class="form-label" for="form8">Amount</label>
+                                                                <input type="text" id="form8" class="form-control form-control-lg" ref={amountRef} />
 
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form7">Description</label>
-                                                        <input type="text" id="form7" className="form-control form-control-lg" ref={descRef} />
+                                                        <label className="form-label" htmlFor="form9">Description</label>
+                                                        <input type="text" id="form9" className="form-control form-control-lg" ref={descRef} />
                                                         <button className="btn btn-primary m-2" onClick={(e) => Add(e)}>Add</button>
                                                     </div>
 
