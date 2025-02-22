@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../assest/logistics_logo.png'
-import cargo from '../assest/cargo.png'
 import view_trip from '../assest/trip_view.png'
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
@@ -19,11 +17,10 @@ export default function ViewTrips() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-
     const trips = [{
         id: 1,
         vehicleNumber: "TN10AB1234",
-        employeeId: 2,
+        employeeName: "John",
         startLocation: "Erode",
         endLocation: "Chennai",
         startTime: "2024-02-01T08:00:00Z",
@@ -44,12 +41,12 @@ export default function ViewTrips() {
     {
         id: 2,
         vehicleNumber: "TN10AB1256",
-        employeeId: 1,
+        employeeName: "Edward",
         startLocation: "Covai",
         endLocation: "Chennai",
         startTime: "2024-02-01T08:00:00Z",
         endTime: "2024-02-02T22:00:00Z",
-        status: "transit",
+        status: "Delivered",
         expenses: [
             { expenseID: "EXP001", type: "vehicle", amount: 5000, desc: "Fuel" },
             { expenseID: "EXP002", type: "toll", amount: 2000, descr: "Toll Charges" },
@@ -66,7 +63,7 @@ export default function ViewTrips() {
     let [view, setView] = useState({
 
         vehicleNumber: "",
-        employeeId: '',
+        employeeName: '',
         startLocation: " ",
         endLocation: " ",
         startTime: " ",
@@ -125,96 +122,103 @@ export default function ViewTrips() {
                                         <div className="row g-0">
                                             <div className="col-xl-6 d-none d-xl-block">
                                                 <img src={view_trip}
-                                                    alt="Sample photo" className="img-fluid w-100 h-100 " />
+                                                    alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover" />
                                             </div>
                                             <div className="col-xl-6">
                                                 <div className="card-body p-md-5 text-black">
                                                     <h3 className="mb-5 text-uppercase text-center">  Trip Details</h3>
 
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                    <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Vehicle Number : </label>
                                                         <p className='ps-3 d-inline-block'>{view.vehicleNumber}</p>
 
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label fw-bold fs-6" >Employee Id : </label>
-                                                        <p className='ps-3 d-inline-block'>{view.employeeId}</p>
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold fs-6" >Employee Name : </label>
+                                                        <p className='ps-3 d-inline-block'>{view.employeeName}</p>
 
                                                     </div>
 
 
-                                                    <div className="form-outline mb-4">
+                                                    <div className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" > Start Location: </label>
                                                         <p className='ps-3 d-inline-block'>{view.startLocation}</p>
 
                                                     </div>
 
 
-                                                    <div className="form-outline mb-4">
+                                                    <div className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" > End Location : </label>
                                                         <p className='ps-3 d-inline-block'>{view.endLocation}</p>
 
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                    <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Start Date : </label>
                                                         <p className='ps-3 d-inline-block'>{view.startTime}</p>
 
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                    <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6 " >End Date: </label>
                                                         <p className='ps-3 d-inline-block'>{view.endTime}</p>
 
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                    <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Status : </label>
                                                         <p className={`badge ps-3 d-inline-block ${view.status === 'in-transit' ? 'bg-success' : 'bg-danger'}`}>{view.status}</p>
 
 
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                    <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6">Expenses : </label>
-                                                        <div className=" d-flex flex-xxl-nowrap flex-sm-wrap flex-md-wrap flex-lg-nowrap">
-                                                            {
-                                                                view.expenses.map((expense, index) =>
-                                                                (
-                                                                    <div key={index} className=" border border-primary m-1 rounded  ">
-
-                                                                        <p className='d-inline-block flex-fill  p-1 '>{`Type :  ${expense.type}`}</p>
-                                                                        <p className='d-inline-block flex-fill p-1'>{`Amount :  ${expense.amount}`}</p>
-                                                                        <p className='d-inline-block flex-fill p-1'>{`Desc :  ${expense.desc === undefined ? "Null" : expense.desc}`}</p>
-                                                                    </div>
-                                                                ))
-                                                            }
-                                                        </div>
+                                                        <table className="table align-middle mb-0 bg-white table-striped border">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>S.No</th>
+                                                                    <th >Type</th>
+                                                                    <th >Amount</th>
+                                                                    <th>Description</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {view.expenses.map((expense, index) => (
+                                                                    <tr key={index} className='tr-white'>
+                                                                        <td className='fw-bold'>{index + 1}</td>
+                                                                        <td>{expense.type}</td>
+                                                                        <td className=''>{expense.amount}</td>
+                                                                        <td className=''>{expense.desc}</td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                    <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Earned Income  : </label>
                                                         <p className={`ps-3 d-inline-block `}>{view.earnedIncome}</p>
 
 
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                    <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Total Expenses : </label>
                                                         <p className={` ps-3 d-inline-block `}>{view.totalExpenses}</p>
 
 
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                    <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Profit : </label>
                                                         <p className={` ps-3 d-inline-block `}>{view.profit}</p>
 
 
                                                     </div>
 
-                                                    <div className="d-flex justify-content-end pt-3">
+                                                    <div className="d-flex justify-content-end pt-1">
 
                                                         <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-success btn-lg ms-2 " onClick={() => use('/trip_details')}>Cancel</button>
                                                     </div>

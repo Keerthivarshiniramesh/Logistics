@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../assest/logistics_logo.png'
-import cargo from '../assest/cargo.png'
 import edit_vehicle from '../assest/edit_vehicle.jpg'
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
@@ -27,7 +25,9 @@ export default function EditVehicle() {
             manufacturer: "Tata",
             yearOfManufacture: 2020,
             type: "Heavy Truck",
-            desc: "Regular maintenance required"
+            desc: "Regular maintenance required",
+            lastServiceDate: '2025-01-05',
+            nextServiceDate: '2025-04-21'
         },
         {
             vehicleNumber: "TN10AB1256",
@@ -35,7 +35,10 @@ export default function EditVehicle() {
             manufacturer: "AL",
             yearOfManufacture: 2021,
             type: "Truck",
-            desc: "Regular maintenance required"
+            desc: "Regular maintenance required",
+            lastServiceDate: '2025-02-05',
+            nextServiceDate: '2025-05-15'
+
         }
     ];
 
@@ -48,7 +51,9 @@ export default function EditVehicle() {
         manufacturer: '',
         yearOfManufacture: '',
         type: '',
-        desc: ''
+        desc: '',
+        lastServiceDate: '',
+        nextServiceDate: ''
 
     })
     useEffect(() => {
@@ -102,65 +107,68 @@ export default function EditVehicle() {
                                     <div className="card card-registration my-4">
                                         <div className="row g-0">
                                             <div className="col-xl-6 d-none d-xl-block">
-                                                <img src={edit_vehicle}
-                                                    alt="Sample photo" className="img-fluid w-100 h-100 "
-                                                />
+                                                <img src={edit_vehicle} alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover" />
                                             </div>
                                             <div className="col-xl-6">
                                                 <div className="card-body p-md-5 text-black">
                                                     <h3 className="mb-5 text-uppercase text-center"> Update Vehicle Form</h3>
 
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form1">Vehicle Number </label>
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form1">Vehicle Number </label>
                                                         <input type="text" id="form1" className="form-control form-control-lg" value={edit.vehicleNumber || ''}
                                                             onChange={(e) => setEdit({ ...edit, vehicleNumber: e.target.value })} />
 
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form2">Name</label>
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form2">Name</label>
                                                         <input type="text" id="form2" className="form-control form-control-lg" value={edit.name || ''}
                                                             onChange={(e) => setEdit({ ...edit, name: e.target.value })} />
 
                                                     </div>
 
 
-                                                    <div className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form3">Manufacturer</label>
+                                                    <div className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form3">Manufacturer</label>
                                                         <input type="text" id="form3" className="form-control form-control-lg" value={edit.manufacturer || ''}
                                                             onChange={(e) => setEdit({ ...edit, manufacturer: e.target.value })} />
 
                                                     </div>
 
 
-                                                    <div className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form4"> Year of Manufacture</label>
-                                                        <input
-                                                            type="text"
-                                                            id="form4"
-                                                            className="form-control form-control-lg"
-                                                            value={edit.yearOfManufacture || ''} // Ensure it's binding correctly
-                                                            onChange={(e) => setEdit({ ...edit, yearOfManufacture: e.target.value })}
-                                                        />
+                                                    <div className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form4"> Year of Manufacture</label>
+                                                        <input type="text" id="form4" className="form-control form-control-lg"
+                                                            value={edit.yearOfManufacture || ''} onChange={(e) => setEdit({ ...edit, yearOfManufacture: e.target.value })} />
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form5">Type</label>
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form5">Type</label>
                                                         <input type="text" id="form5" className="form-control form-control-lg" value={edit.type || ''}
                                                             onChange={(e) => setEdit({ ...edit, type: e.target.value })} />
 
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-4">
-                                                        <label className="form-label" htmlFor="form6">Description</label>
-                                                        <input
-                                                            type="text"
-                                                            id="form6"
-                                                            className="form-control form-control-lg"
-                                                            value={edit.desc || ''} // Ensure it's binding correctly
-                                                            onChange={(e) => setEdit({ ...edit, desc: e.target.value })}
-                                                        />
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form6">Description</label>
+                                                        <input type="text" id="form6" className="form-control form-control-lg"
+                                                            value={edit.desc || ''} onChange={(e) => setEdit({ ...edit, desc: e.target.value })} />
+
+                                                    </div>
+
+
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form7">Last Service Date</label>
+                                                        <input type="date" id="form7" className="form-control form-control-lg" value={edit.lastServiceDate || ''}
+                                                            onChange={(e) => setEdit({ ...edit, lastServiceDate: e.target.value })} />
+
+                                                    </div>
+
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form8">Next Service Date</label>
+                                                        <input type="date" id="form8" className="form-control form-control-lg" value={edit.nextServiceDate || ''}
+                                                            onChange={(e) => setEdit({ ...edit, nextServiceDate: e.target.value })} />
 
                                                     </div>
 

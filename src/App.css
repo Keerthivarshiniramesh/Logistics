@@ -75,3 +75,20 @@ body {
   border-bottom-left-radius: .25rem;
 }
 
+.blur-table {
+  filter: blur(2px);
+  pointer-events: none;
+
+  /* Prevent interaction with the blurred content */
+}
+
+.disabled-div {
+  pointer-events: none;
+  /* Prevent clicks */
+  opacity: 0.5;
+  /* Make it look disabled */
+}
+
+.position {
+  top: -5px;
+}

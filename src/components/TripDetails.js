@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../assest/logistics_logo.png';
 import { useNavigate } from 'react-router-dom';
 import cargo from '../assest/cargo.png';
 import Sidebar from './Sidebar';
@@ -19,12 +18,10 @@ export default function TripDetails() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-
-
     const trips = [{
         id: 1,
         vehicleNumber: "TN10AB1234",
-        employeeId: 2,
+        employeeName: "John",
         startLocation: "Erode",
         endLocation: "Chennai",
         startTime: "2024-02-01T08:00:00Z",
@@ -40,7 +37,7 @@ export default function TripDetails() {
     {
         id: 2,
         vehicleNumber: "TN10AB1256",
-        employeeId: 1,
+        employeeName: "Edward",
         startLocation: "Covai",
         endLocation: "Chennai",
         startTime: "2024-02-01T08:00:00Z",
@@ -55,7 +52,6 @@ export default function TripDetails() {
     }
     ]
 
-
     function Change(e, values) {
         e.preventDefault();
         setChange(values);
@@ -68,8 +64,6 @@ export default function TripDetails() {
         }, 200);
     }
 
-
-
     return (
         <div className="d-flex vh-100 overflow-x-hidden">
             {/* Sidebar Component */}
@@ -80,8 +74,6 @@ export default function TripDetails() {
                 {/* Header Component */}
                 <Header sideBar={sideBar} setSidebar={setSidebar} />
 
-
-
                 <main className="container-fluid py-4 flex-grow-1 dash_content">
                     <h3 className='text-center '>Trip Details</h3>
                     <button className='btn btn-success m-5 float-end' onClick={() => use('/trip_register')}>Create</button>
@@ -90,7 +82,7 @@ export default function TripDetails() {
                             <tr>
                                 <th>S.No</th>
                                 <th>Vehicle No</th>
-                                <th>Employee Id</th>
+                                <th>Employee Name</th>
                                 <th>Status</th>
                                 <th className='d-none d-md-table-cell'>No.of.Expenses</th>
                                 <th>Actions</th>
@@ -101,13 +93,13 @@ export default function TripDetails() {
                                 <tr key={index} className='tr-white'>
                                     <td className='fw-bold'>{index + 1}</td>
                                     <td><p className="fw-normal mb-1">{trip.vehicleNumber}</p></td>
-                                    <td><p className="fw-normal mb-1">{trip.employeeId}</p></td>
+                                    <td><p className="fw-normal mb-1">{trip.employeeName}</p></td>
                                     <td><span className={`badge  rounded-pill ${trip.status === 'in-transit' ? 'bg-success' : 'bg-danger'}`}>{trip.status}</span></td>
                                     <td className='d-none d-md-table-cell'><p className="fw-normal mb-1">{trip.expenses.length}</p></td>
                                     <td>
-                                        <i className="bi bi-trash-fill mx-2 px-1 text-danger"></i>
-                                        <i className="bi bi-pencil-square mx-2 px-1 text-primary" onClick={() => use(`/edit_trip/${trip.id}`)}></i>
-                                        <i className="bi bi-eye-fill mx-2 px-1 text-success " onClick={() => use(`/view_trips/${trip.id}`)}></i>
+                                        <i className="bi bi-trash-fill mx-2 px-1 text-danger" role='button'></i>
+                                        <i className="bi bi-pencil-square mx-2 px-1 text-primary" role='button' onClick={() => use(`/edit_trip/${trip.id}`)}></i>
+                                        <i className="bi bi-eye-fill mx-2 px-1 text-success " role='button' onClick={() => use(`/view_trips/${trip.id}`)}></i>
                                     </td>
                                 </tr>
                             ))}

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../assest/logistics_logo.png';
 import { useNavigate } from 'react-router-dom';
-import cargo from '../assest/cargo.png';
 import Sidebar from './Sidebar';
 import Header from './Header';
 
@@ -26,7 +24,9 @@ export default function VehicleDetails() {
             manufacturer: "Tata",
             yearOfManufacture: 2020,
             type: "Heavy Truck",
-            desc: "Regular maintenance required"
+            desc: "Regular maintenance required",
+            lastServiceDate: '2025-02-05',
+            nextServiceDate: '2025-05-15'
         },
         {
             vehicleNumber: "TN10AB1256",
@@ -34,7 +34,9 @@ export default function VehicleDetails() {
             manufacturer: "AL",
             yearOfManufacture: 2021,
             type: "Truck",
-            desc: "Regular maintenance required"
+            desc: "Regular maintenance required",
+            lastServiceDate: '2025-01-05',
+            nextServiceDate: '2025-04-21'
         }
     ];
 
@@ -60,7 +62,6 @@ export default function VehicleDetails() {
                 {/* Header Component */}
                 <Header sideBar={sideBar} setSidebar={setSidebar} />
 
-
                 <main className="container-fluid py-4 flex-grow-1 dash_content">
                     <h3 className='text-center '>Vehicle Details</h3>
                     <button className='btn btn-success m-5 float-end' onClick={() => use('/vehicle')}>Create</button>
@@ -84,9 +85,9 @@ export default function VehicleDetails() {
                                     <td className='d-none d-md-table-cell'><p className="fw-normal mb-1">{vehi.yearOfManufacture}</p></td>
                                     <td className='d-none d-md-table-cell'><p className="fw-normal mb-1">{vehi.type}</p></td>
                                     <td>
-                                        <i className="bi bi-trash-fill mx-2 px-1 text-danger"></i>
-                                        <i className="bi bi-pencil-square mx-2 px-1 text-primary" onClick={() => use(`/edit_vehicle/${vehi.vehicleNumber}`)}></i>
-                                        <i className="bi bi-eye-fill mx-2 px-1 text-success " onClick={() => use(`/view_vehicle/${vehi.vehicleNumber}`)}></i>
+                                        <i className="bi bi-trash-fill mx-2 px-1 text-danger" role='button'></i>
+                                        <i className="bi bi-pencil-square mx-2 px-1 text-primary" role='button' onClick={() => use(`/edit_vehicle/${vehi.vehicleNumber}`)}></i>
+                                        <i className="bi bi-eye-fill mx-2 px-1 text-success " role='button' onClick={() => use(`/view_vehicle/${vehi.vehicleNumber}`)}></i>
                                     </td>
                                 </tr>
                             ))}

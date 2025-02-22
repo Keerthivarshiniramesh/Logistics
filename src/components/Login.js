@@ -42,7 +42,7 @@ export default function Login() {
             //         if (data.success === true) {
             //             alert(data.message)
             //             // use('/home')
-                        
+
 
             //         }
             //         else {
@@ -57,7 +57,6 @@ export default function Login() {
             //     })
 
         }
-
     }
     return (
         <div className='login_bg d-flex flex-column justify-content-center align-items-center w-100'>

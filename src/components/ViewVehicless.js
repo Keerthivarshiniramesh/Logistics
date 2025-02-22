@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../assest/logistics_logo.png'
-import cargo from '../assest/cargo.png'
 import view_vehi from '../assest/view_vehicle.jpg'
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
@@ -19,7 +17,6 @@ export default function ViewVehicless() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-
     const vehicles = [
         {
             vehicleNumber: "TN10AB1234",
@@ -27,7 +24,9 @@ export default function ViewVehicless() {
             manufacturer: "Tata",
             yearOfManufacture: 2020,
             type: "Heavy Truck",
-            desc: "Regular maintenance required"
+            desc: "Regular maintenance required",
+            lastServiceDate: '2025-01-05',
+            nextServiceDate: '2025-04-21'
         },
         {
             vehicleNumber: "TN10AB1256",
@@ -35,7 +34,9 @@ export default function ViewVehicless() {
             manufacturer: "AL",
             yearOfManufacture: 2021,
             type: "Truck",
-            desc: "Regular maintenance required"
+            desc: "Regular maintenance required",
+            lastServiceDate: '2025-02-05',
+            nextServiceDate: '2025-05-15'
         }
     ];
 
@@ -46,7 +47,9 @@ export default function ViewVehicless() {
         manufacturer: '',
         yearOfManufacture: '',
         type: '',
-        desc: ''
+        desc: '',
+        lastServiceDate: '',
+        nextServiceDate: ''
 
     })
 
@@ -57,7 +60,6 @@ export default function ViewVehicless() {
             setView(current);
         }
     }, [])
-
 
     function Change(e, values) {
         e.preventDefault();
@@ -70,8 +72,6 @@ export default function ViewVehicless() {
             else if (values === "Trip") use("/trip_details");
         }, 200);
     }
-
-
 
     return (
         <div className="d-flex vh-100 overflow-x-hidden ">
@@ -99,7 +99,7 @@ export default function ViewVehicless() {
                                         <div className="row g-0">
                                             <div className="col-xl-6 d-none d-xl-block">
                                                 <img src={view_vehi}
-                                                    alt="Sample photo" className="img-fluid w-100 h-100 " />
+                                                    alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover" />
                                             </div>
                                             <div className="col-xl-6">
                                                 <div className="card-body p-md-5 text-black">
@@ -142,7 +142,16 @@ export default function ViewVehicless() {
 
                                                     </div>
 
+                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                        <label className="form-label fw-bold fs-6" >Last Service Date :</label>
+                                                        <p className='ps-3 d-inline-block'>{view.lastServiceDate}</p>
 
+                                                    </div>
+                                                    <div data-mdb-input-init className="form-outline mb-4">
+                                                        <label className="form-label fw-bold fs-6" >Next Service Date :</label>
+                                                        <p className='ps-3 d-inline-block'>{view.nextServiceDate}</p>
+
+                                                    </div>
 
                                                     <div className="d-flex justify-content-end pt-3">
                                                         <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-success btn-lg ms-2 " onClick={() => use('/vehicle-details')}>Cancel</button>

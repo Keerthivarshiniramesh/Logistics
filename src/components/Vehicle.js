@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../assest/logistics_logo.png'
 import register from '../assest/vehicle_register.jpg'
-import cargo from '../assest/cargo.png'
 import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -25,7 +23,9 @@ export default function Vehicle() {
     manufacturer: '',
     year: '',
     type: '',
-    description: ''
+    description: '',
+    lastServiceDate: '',
+    nextServiceDate: ''
   })
 
   useEffect(() => {
@@ -48,12 +48,10 @@ export default function Vehicle() {
     ))
   }
 
-
   const Save = (e) => {
     e.preventDefault()
     console.log(vehicle)
   }
-
 
   function Change(e, values) {
     e.preventDefault();
@@ -66,7 +64,6 @@ export default function Vehicle() {
       else if (values === "Trip") use("/trip_details");
     }, 200);
   }
-
 
   return (
     <div className="d-flex vh-100 overflow-x-hidden ">
@@ -93,51 +90,58 @@ export default function Vehicle() {
                     <div className="row g-0">
                       <div className="col-xl-6 d-none d-xl-block">
                         <img src={register}
-                          alt="Sample photo" className="img-fluid w-100 h-100 "
+                          alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover "
                         />
                       </div>
                       <div className="col-xl-6">
                         <div className="card-body p-md-5 text-black">
-                          <h3 className="mb-5 text-uppercase text-center">Vehicle registration form</h3>
+                          <h3 className="mb-3 text-uppercase text-center">Vehicle registration form</h3>
 
 
-                          <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form1">Vehicle Number </label>
+                          <div data-mdb-input-init className="form-outline mb-2">
+                            <label className="form-label fw-bold " htmlFor="form1">Vehicle Number </label>
                             <input type="text" id="form1" className="form-control form-control-lg" value={vehicle.vehicleNumber} onChange={(e) => Create(e, 'vehicleNumber')} />
 
                           </div>
 
-                          <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form2">Name</label>
+                          <div data-mdb-input-init className="form-outline mb-2">
+                            <label className="form-label fw-bold" htmlFor="form2">Name</label>
                             <input type="text" id="form2" className="form-control form-control-lg" value={vehicle.name} onChange={(e) => Create(e, 'name')} />
 
                           </div>
 
 
-                          <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form3">Manufacturer</label>
+                          <div data-mdb-input-init className="form-outline mb-2">
+                            <label className="form-label fw-bold" htmlFor="form3">Manufacturer</label>
                             <input type="text" id="form3" className="form-control form-control-lg" value={vehicle.manufacturer} onChange={(e) => Create(e, 'manufacturer')} />
 
                           </div>
 
-
-
-
-                          <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form4">YearofManufacturer</label>
+                          <div data-mdb-input-init className="form-outline mb-2">
+                            <label className="form-label fw-bold" htmlFor="form4">YearofManufacturer</label>
                             <input type="text" id="form4" className="form-control form-control-lg" value={vehicle.year} onChange={(e) => Create(e, 'year')} />
 
                           </div>
 
-                          <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form5">Type</label>
+                          <div data-mdb-input-init className="form-outline mb-2">
+                            <label className="form-label fw-bold" htmlFor="form5">Type</label>
                             <input type="text" id="form5" className="form-control form-control-lg" value={vehicle.type} onChange={(e) => Create(e, 'type')} />
 
                           </div>
 
-                          <div data-mdb-input-init className="form-outline mb-4">
-                            <label className="form-label" htmlFor="form6">Description</label>
+                          <div data-mdb-input-init className="form-outline mb-2">
+                            <label className="form-label fw-bold" htmlFor="form6">Description</label>
                             <input type="text" id="form6" className="form-control form-control-lg" value={vehicle.description} onChange={(e) => Create(e, 'description')} />
+                          </div>
+
+                          <div data-mdb-input-init className="form-outline mb-2">
+                            <label className="form-label fw-bold" htmlFor="form7">Last Service Date</label>
+                            <input type="date" id="form7" className="form-control form-control-lg" value={vehicle.lastServiceDate} onChange={(e) => Create(e, 'lastServiceDate')} />
+                          </div>
+
+                          <div data-mdb-input-init className="form-outline mb-2">
+                            <label className="form-label fw-bold" htmlFor="form8">Next Service Date</label>
+                            <input type="date" id="form8" className="form-control form-control-lg" value={vehicle.nextServiceDate} onChange={(e) => Create(e, 'nextServiceDate')} />
                           </div>
 
                           <div className="d-flex justify-content-end pt-3">
