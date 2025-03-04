@@ -144,6 +144,7 @@ export default function TripRegister() {
             .then(data => {
                 if (data.success === true) {
                     alert(data.message)
+                    use('/trip_details')
                 }
                 else {
                     alert(data.message)

@@ -24,15 +24,17 @@ export default function EditTrip() {
 
 
     let [edit, setEdit] = useState({
-        vehicleNumber: "abc",
+        vehicleNumber: "",
         employeeId: '',
-        startLocation: " ",
-        endLocation: " ",
-        startTime: " ",
-        endTime: " ",
+        startLocation: "",
+        endLocation: "",
+        startTime: "",
+        endTime: "",
         status: '',
         expenses: []
+
     })
+    let [exp, setExpenses] = useState([])
 
 
     const [employees, setEmployee] = useState(null);
@@ -116,7 +118,6 @@ export default function EditTrip() {
     }, [id])
 
 
-    console.log(edit)
     // vehicleNumber, employeeId, startLocation, endLocation, startTime, endTime, status, expenses, earnedIncome
     let Update = (e) => {
         e.preventDefault()
@@ -136,19 +137,17 @@ export default function EditTrip() {
                 },
                 credentials: 'include',
                 body: JSON.stringify({
-                    vehicleNumber: edit.vehicleNumber.toLowerCase(), employeeId: edit.employeeId, startLocation: edit.startLocation, endLocation: edit.endLocation,
-                    startTime: edit.startTime, endTime: edit.endTime, status: edit.status, expenses: edit.expenses
+                    vehicleNumber: edit.vehicleNumber, employeeId: edit.employeeId, startLocation: edit.startLocation, endLocation: edit.endLocation,
+                    startTime: edit.startTime, endTime: edit.endTime, status: edit.status, expenses: exp
 
                 })
 
             })
             .then(res => res.json())
             .then(data => {
+                alert(data.message)
                 if (data.success === true) {
-                    setEdit(data.trip);
-                }
-                else {
-                    alert(data.message)
+                    window.location.href = "/trip_details"
                 }
             })
             .catch(err => {
@@ -168,56 +167,21 @@ export default function EditTrip() {
         e.preventDefault()
         let type = typeRef.current.value
         let amount = Number(amountRef.current.value)
-        let desc = descRef.current.value
+        let description = descRef.current.value
 
-        let newExpense = { type, amount, desc };
+        let newExpense = { type, amount, description };
 
-        setEdit((prevState) => ({
+        setExpenses((prevState) => ([
             ...prevState,
-            expenses: [...prevState.expenses, newExpense], // Append instead of replacing
-        }));
+            newExpense, // Append instead of replacing
+        ]));
         typeRef.current.value = "";
         amountRef.current.value = "";
         descRef.current.value = "";
         setView(!view)
     }
 
-    // function ExpenseEdit(e, i, key) {
-    //     let { value } = e.target;
-    //     let values
-    //     if (key === "amount") {
-    //         values = Number(value)
-    //     }
-    //     else {
-    //         values = value
-    //     }
 
-    //     const temp = [...edit.expenses];
-    //     temp[i] = { ...temp[i], [key]: values };
-    //     // console.log(typeof values)
-    //     setEdit((prevState) => ({
-    //         ...prevState,
-    //         expenses: temp,
-    //     }));
-    // }
-
-    // let ExpenseChange = (id, i) => {
-    //     if (id && edit.expenses && edit.expenses[i]) {
-    //         if (edit.expenses[i].expenseID === id)
-    //             setIdpass(id)
-    //     }
-    // }
-
-    // const handleExpenseRemoval = (i) => {
-    //     console.log("func called")
-    //     setEdit(prev => {
-    //         let tempTrips = { ...prev }
-    //         let tempExpenses = tempTrips.expenses.filter((item, index) => index !== i)
-    //         tempTrips.expenses = tempExpenses
-    //         return tempTrips
-    //     })
-    //     // console.log("Create after updation:", create)
-    // }
 
     function Change(e, values) {
         e.preventDefault();
@@ -230,7 +194,12 @@ export default function EditTrip() {
             else if (values === "Trip") use("/trip_details");
         }, 200);
     }
-    if (vehicles === null || employees === null || edit === null) {
+
+    console.log("edit vehicleNumber:", vehicles, employees, edit)
+
+
+
+    if (vehicles === null || employees === null || edit.vehicleNumber === "" || edit.employeeId === '' || edit.startLocation === "" || edit.endLocation === "" || edit.startTime === "" || edit.endTime === "" || edit.status === '' || edit.expenses.length === 0) {
         return (<Loading />)
     }
 
@@ -270,9 +239,9 @@ export default function EditTrip() {
                                                             <option value=""> Select Vehicle Number</option>
 
                                                             {
-                                                                vehicles&&vehicles.map((vehi, index) =>
+                                                                vehicles && vehicles.map((vehi, index) =>
                                                                 (
-                                                                    <option key={index} value={vehi.vehicleNumber.toLowerCase()||""}>{vehi.vehicleNumber}</option>
+                                                                    <option key={index} value={vehi.vehicleNumber.toLowerCase() || ""}>{vehi.vehicleNumber}</option>
                                                                 ))
                                                             }
                                                         </select>
@@ -337,42 +306,19 @@ export default function EditTrip() {
 
                                                     <div className='position-relative'>
                                                         {
-                                                            edit.expenses.map((expense, index) =>
-                                                            (
-                                                                <div key={index} className={`  ${view ? "blur-table" : ""}`}>
-
-                                                                    <div className='w-100 d-flex justify-content-between align-items-center border rounded m-1 px-1 ' key={index}>
+                                                            edit.expenses.map((expense, expIndex) => (
+                                                                <div key={expIndex} className={`  ${view ? "blur-table" : ""}`}>
+                                                                    <div className='w-100 d-flex justify-content-between align-items-center border rounded m-1 px-1'>
                                                                         <p className='m-0 m-1'>{expense.type}</p>
-                                                                        {/* <div className=' d-flex justify-content-end align-items-center px-1 '>
-                                                                            <i className="bi bi-pencil-square fs-6 " role='button' onClick={() => ExpenseChange(expense.expenseID, index)} />
-                                                                            <i className='bi bi-x fs-4' onClick={() => handleExpenseRemoval(index)} role='button'></i>
-                                                                        </div> */}
                                                                     </div>
-                                                                    {/* {idPass === expense.expenseID &&
-
-                                                                        <div className=''>
-                                                                            <div className="row">
-                                                                                <div className="col-md-6 mb-2">
-                                                                                    <div data-mdb-input-init class="form-outline">
-                                                                                        <label className="form-label fw-bold" for="form6">Type</label>
-                                                                                        <input type="text" id="form6" className="form-control form-control-lg" value={expense.type} onChange={(e) => ExpenseEdit(e, index, 'type')} />
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="col-md-6 mb-2">
-                                                                                    <div data-mdb-input-init className="form-outline">
-                                                                                        <label className="form-label fw-bold" for="form7">Amount</label>
-                                                                                        <input type="text" id="form7" className="form-control form-control-lg" value={expense.amount} onChange={(e) => ExpenseEdit(e, index, 'amount')} />
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div data-mdb-input-init className="form-outline mb-2">
-                                                                                <label className="form-label fw-bold" for="form8">Desc</label>
-                                                                                <input type="text" id="form8" className="form-control form-control-lg" value={expense.desc} onChange={(e) => ExpenseEdit(e, index, 'desc')} />
-                                                                            </div>
+                                                                    {exp.map((ex, subIndex) => (
+                                                                        <div key={subIndex} className='w-100 d-flex justify-content-between align-items-center border rounded m-1 px-1'>
+                                                                            <p className='m-0 m-1'>{ex.type}</p>
                                                                         </div>
-                                                                    } */}
+                                                                    ))}
                                                                 </div>
                                                             ))
+
                                                         }
                                                         <div className=''>
                                                             {
