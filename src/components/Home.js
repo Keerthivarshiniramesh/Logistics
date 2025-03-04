@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import vehicle from "../assest/vehicle.jpg";
 import employee from "../assest/employee.png";
-import trip from "../assest/trips(1).jpg";
+import trip from "../assest/trips.jpg";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
@@ -12,11 +12,15 @@ export default function Home() {
     const [change, setChange] = useState("Home");
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+    // const url = process.env.REACT_APP_URL
+
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+  
 
     function Change(e, values) {
         e.preventDefault();
@@ -36,11 +40,9 @@ export default function Home() {
             <Sidebar sideBar={sideBar} setSidebar={setSidebar} change={change} Change={Change} />
 
             {/* Main Content */}
-            <div
-                className="flex-grow-1 d-flex flex-column bg-light"
-                style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
-                {/* Header Component */}
-                <Header sideBar={sideBar} setSidebar={setSidebar} />
+            <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
+                {/* Header Component adminName={adminName} */}
+                <Header sideBar={sideBar} setSidebar={setSidebar}  />
 
                 {/* Dashboard Cards */}
                 <main className="container-fluid py-4 flex-grow-1 dash_content">
@@ -49,7 +51,6 @@ export default function Home() {
                             <div className="card">
                                 <img src={vehicle} className="card-img-top" alt="Vehicle" />
                                 <div className="card-body text-center bg-light">
-
                                     <button className="card-text text-center w-50 btn rounded fw-bold btn-success" onClick={() => use("/vehicle-details")}>
                                         <h5 className="card-title">Vehicle</h5> </button>
                                 </div>
@@ -59,7 +60,6 @@ export default function Home() {
                             <div className="card">
                                 <img src={employee} className="card-img-top" alt="Employee" />
                                 <div className="card-body text-center bg-light">
-
                                     <button className="card-text text-center w-50 btn rounded fw-bold btn-success" onClick={() => use("/employee_details")}>
                                         <h5 className="card-title">Employee</h5> </button>
                                 </div>
@@ -69,7 +69,6 @@ export default function Home() {
                             <div className="card">
                                 <img src={trip} className="card-img-top" alt="Trip" />
                                 <div className="card-body text-center bg-light">
-
                                     <button className="card-text text-center w-50 btn rounded fw-bold btn-success"
                                         onClick={() => use("/trip_details")}>  <h5 className="card-title">Trip</h5></button>
                                 </div>

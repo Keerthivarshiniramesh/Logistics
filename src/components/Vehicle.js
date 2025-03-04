@@ -11,6 +11,8 @@ export default function Vehicle() {
   const [change, setChange] = useState('Vehicle')
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  const url = process.env.REACT_APP_URL
+
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -24,18 +26,8 @@ export default function Vehicle() {
     year: '',
     type: '',
     description: '',
-    lastServiceDate: '',
-    nextServiceDate: ''
+    nextServiceDate: new Date().toISOString()
   })
-
-  useEffect(() => {
-
-    // Initialize MDB components
-    if (window.mdb) {
-      window.mdb.Input.init(); // Assuming you want to initialize the input components
-    }
-
-  }, [])
 
   const Create = (e, keys) => {
     let value = e.target.value
@@ -49,8 +41,35 @@ export default function Vehicle() {
   }
 
   const Save = (e) => {
+
     e.preventDefault()
-    console.log(vehicle)
+    fetch(`${url}create-vehicle`,
+      {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          vehicleNumber: vehicle.vehicleNumber, name: vehicle.name, manufacturer: vehicle.manufacturer,
+          yearofmanufacture: Number(vehicle.year), type: vehicle.type, desc: vehicle.description, nextServiceDate: vehicle.nextServiceDate
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success === true) {
+          alert(data.message)
+        }
+        else {
+          alert(data.message)
+        }
+      })
+      .catch(err => {
+        console.log("Error : ", err)
+        alert("Trouble in connecting to the Server !!!")
+      }
+      )
   }
 
   function Change(e, values) {
@@ -68,14 +87,12 @@ export default function Vehicle() {
   return (
     <div className="d-flex vh-100 overflow-x-hidden ">
       {/* Sidebar */}
-      {/* Sidebar Component */}
+
       <Sidebar sideBar={sideBar} setSidebar={setSidebar} change={change} Change={Change} />
-      {/* Main Content */}
+
       <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
 
-        {/* Header Component */}
         <Header sideBar={sideBar} setSidebar={setSidebar} />
-
 
         {/* Dashboard Cards */}
         <main className="container-fluid py-4  flex-grow-1 dash_content">
@@ -90,31 +107,26 @@ export default function Vehicle() {
                     <div className="row g-0">
                       <div className="col-xl-6 d-none d-xl-block">
                         <img src={register}
-                          alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover "
-                        />
+                          alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover" />
                       </div>
                       <div className="col-xl-6">
                         <div className="card-body p-md-5 text-black">
                           <h3 className="mb-3 text-uppercase text-center">Vehicle registration form</h3>
 
-
                           <div data-mdb-input-init className="form-outline mb-2">
                             <label className="form-label fw-bold " htmlFor="form1">Vehicle Number </label>
                             <input type="text" id="form1" className="form-control form-control-lg" value={vehicle.vehicleNumber} onChange={(e) => Create(e, 'vehicleNumber')} />
-
                           </div>
 
                           <div data-mdb-input-init className="form-outline mb-2">
                             <label className="form-label fw-bold" htmlFor="form2">Name</label>
                             <input type="text" id="form2" className="form-control form-control-lg" value={vehicle.name} onChange={(e) => Create(e, 'name')} />
-
                           </div>
 
 
                           <div data-mdb-input-init className="form-outline mb-2">
                             <label className="form-label fw-bold" htmlFor="form3">Manufacturer</label>
                             <input type="text" id="form3" className="form-control form-control-lg" value={vehicle.manufacturer} onChange={(e) => Create(e, 'manufacturer')} />
-
                           </div>
 
                           <div data-mdb-input-init className="form-outline mb-2">
@@ -125,8 +137,12 @@ export default function Vehicle() {
 
                           <div data-mdb-input-init className="form-outline mb-2">
                             <label className="form-label fw-bold" htmlFor="form5">Type</label>
-                            <input type="text" id="form5" className="form-control form-control-lg" value={vehicle.type} onChange={(e) => Create(e, 'type')} />
-
+                            <select className='form-select' aria-label="select status" value={vehicle.type} onChange={(e) => Create(e, 'type')} >
+                              <option value=""> Select Truck</option>
+                              <option value="Tipper Truck">Tipper Truck</option>
+                              <option value="Container Truck">Container Truck</option>
+                              <option value="Tanker Truck">Tanker Truck</option>
+                            </select>
                           </div>
 
                           <div data-mdb-input-init className="form-outline mb-2">
@@ -134,10 +150,6 @@ export default function Vehicle() {
                             <input type="text" id="form6" className="form-control form-control-lg" value={vehicle.description} onChange={(e) => Create(e, 'description')} />
                           </div>
 
-                          <div data-mdb-input-init className="form-outline mb-2">
-                            <label className="form-label fw-bold" htmlFor="form7">Last Service Date</label>
-                            <input type="date" id="form7" className="form-control form-control-lg" value={vehicle.lastServiceDate} onChange={(e) => Create(e, 'lastServiceDate')} />
-                          </div>
 
                           <div data-mdb-input-init className="form-outline mb-2">
                             <label className="form-label fw-bold" htmlFor="form8">Next Service Date</label>

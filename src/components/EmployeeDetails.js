@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import Loading from './Loading';
 
 export default function EmployeeDetails() {
     const [sideBar, setSidebar] = useState(false);
@@ -10,49 +11,39 @@ export default function EmployeeDetails() {
     const [view, setView] = useState(false)
     const use = useNavigate();
 
+    const url = process.env.REACT_APP_URL
+
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const employees = [{
-        id: 1,
-        name: "John Doe",
-        joinedDate: "2023-05-10T00:00:00Z",
-        workingStatus: false,
-        releavedOn: "2024-02-05T10:00:00Z",
-        address: "26 St, Coimbatore",
-        identityType: "Aadhar",
-        identityNumber: "1234-5678-9012",
-        drivenTrips: 26,
-        salaryPerMonth: 10000,
-        sendTotalSalary: 15000,
-        remainingSalary: 5000,
-        salaryTransactions: [
-            { id: 1, description: "jan salary", amount: 10000 },
-            { id: 2, description: "feb salary advance", amount: 5000 }
-        ]
-    },
-    {
-        id: 2,
-        name: "Edward",
-        joinedDate: "2024-10-10T00:00:00Z",
-        workingStatus: true,
-        releavedOn: "",
-        address: "35 St, Coimbatore",
-        identityType: "Aadhar",
-        identityNumber: "2134-7658-0921",
-        drivenTrips: 12,
-        salaryPerMonth: 20000,
-        sendTotalSalary: 20000,
-        remainingSalary: 10000,
-        salaryTransactions: [
-            { id: 1, description: "jan salary", amount: 20000 },
-            { id: 2, description: "feb salary advance", amount: 10000 }
-        ]
-    }
-    ];
+    const [employees, setEmployee] = useState(null)
+
+    useEffect(() => {
+        fetch(`${url}fetch-employee`,
+            {
+                method: 'GET',
+                credentials: 'include',
+
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === true) {
+                    setEmployee(data.EmployeeData);
+                    console.log(employees)
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            })
+
+    }, [])
 
 
     function Change(e, values) {
@@ -70,13 +61,13 @@ export default function EmployeeDetails() {
 
     let [salary, setSalary] = useState({ description: '', amount: '' })
     const [employeeName, setEmployeename] = useState('')
+    const [employeeId, setEmployeeid] = useState('')
 
     let handleSalary = (empId, i) => {
         setView(!view)
         if (empId === employees[i].id)
             setEmployeename(employees[i].name)
-
-
+        setEmployeeid(employees[i].id)
     }
 
     let createSalary = (e, keys) => {
@@ -85,13 +76,64 @@ export default function EmployeeDetails() {
             ...prev,
             [keys]: value
         }))
-
     }
 
-    let Save = (e) => {
+    let Save = (e, id) => {
         e.preventDefault()
-        console.log("Salary:", salary)
 
+        fetch(`${url}Update-employee-salery/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+
+                credentials: 'include',
+                body: JSON.stringify({ description: salary.description, amount: Number(salary.amount) })
+
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === true) {
+                    alert(data.message)
+                    window.location.reload()
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            })
+    }
+
+    //Delete the employee
+    let Delete = (id) => {
+        fetch(`${url}delete-Employee/${id}`,
+            {
+                method: "DELETE",
+                credentials: 'include'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === true) {
+                    alert(data.message)
+                    window.location.reload()
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            })
+    }
+
+    if (employees === null) {
+        return (<Loading />)
     }
 
     return (
@@ -131,7 +173,7 @@ export default function EmployeeDetails() {
                                         <td> <span className={`badge  rounded-pill ${emp.workingStatus === true ? 'bg-success' : 'bg-danger'} `}>{`${emp.workingStatus === true ? 'Active' : 'In-active'}`}</span></td>
                                         <td><p className="fw-normal mb-1">{emp.drivenTrips}</p></td>
                                         <td>
-                                            <i className="bi bi-trash-fill mx-2 px-1 text-danger" role='button'></i>
+                                            <i className="bi bi-trash-fill mx-2 px-1 text-danger" role='button' onClick={() => Delete(emp.id)}></i>
                                             <i className="bi bi-pencil-square mx-2 px-1 text-primary" onClick={() => use(`/employee_edit/${emp.id}`)} role='button'></i>
                                             <i className="bi bi-eye-fill mx-2 px-1 text-success " onClick={() => use(`/employee_view/${emp.id}`)} role='button'></i>
                                             <i className="bi bi-currency-rupee mx-2  text-success" onClick={() => handleSalary(emp.id, index)} role='button'></i>
@@ -142,11 +184,10 @@ export default function EmployeeDetails() {
                         </table>
                     </div>
 
-
-                    <div className='position-relative  '>
+                    <div className='position-relative '>
                         {
                             view &&
-                            <div className="position-absolute w-100 h-100  d-flex justify-content-center align-items-center">
+                            <div className="position-absolute w-100 h-100  d-flex justify-content-center align-items-center position1">
                                 <div className=' border border-white mt-4 p-4 bg-light'>
                                     <h3 className=" text-uppercase text-center">Salary</h3>
                                     <h6 className='  d-flex justify-content-end text-danger' >{employeeName}</h6>
@@ -163,7 +204,7 @@ export default function EmployeeDetails() {
                                     </div>
                                     <div className="d-flex justify-content-end pt-3">
                                         <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-light btn-lg" onClick={() => setView(false)}>Cancel</button>
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-success btn-lg ms-2 " onClick={(e) => Save(e)}>Save </button>
+                                        <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-success btn-lg ms-2 " onClick={(e) => Save(e, employeeId)}>Save </button>
                                     </div>
                                 </div>
                             </div>
@@ -171,8 +212,6 @@ export default function EmployeeDetails() {
 
                     </div>
                 </main>
-
-
             </div>
         </div>
     )

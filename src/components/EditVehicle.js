@@ -3,8 +3,11 @@ import edit_vehicle from '../assest/edit_vehicle.jpg'
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import Loading from './Loading';
 
 export default function EditVehicle() {
+
+    const url = process.env.REACT_APP_URL
 
     const [sideBar, setSidebar] = useState(false);
     const [change, setChange] = useState('Vehicle')
@@ -17,32 +20,10 @@ export default function EditVehicle() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-
-    const vehicles = [
-        {
-            vehicleNumber: "TN10AB1234",
-            name: "Truck-001",
-            manufacturer: "Tata",
-            yearOfManufacture: 2020,
-            type: "Heavy Truck",
-            desc: "Regular maintenance required",
-            lastServiceDate: '2025-01-05',
-            nextServiceDate: '2025-04-21'
-        },
-        {
-            vehicleNumber: "TN10AB1256",
-            name: "Truck-002",
-            manufacturer: "AL",
-            yearOfManufacture: 2021,
-            type: "Truck",
-            desc: "Regular maintenance required",
-            lastServiceDate: '2025-02-05',
-            nextServiceDate: '2025-05-15'
-
-        }
-    ];
-
-    let { id } = useParams()
+    const formatDate = (isoString) => {
+        if (!isoString) return ""; // Handle empty values
+        return new Date(isoString).toISOString().split('T')[0]; // Extracts "YYYY-MM-DD"
+    };
 
     let [edit, setEdit] = useState({
 
@@ -52,23 +33,77 @@ export default function EditVehicle() {
         yearOfManufacture: '',
         type: '',
         desc: '',
-        lastServiceDate: '',
-        nextServiceDate: ''
+        lastServiceDate: formatDate(new Date()), // Convert to YYYY-MM-DD
+        nextServiceDate: formatDate(new Date())
 
     })
+
+    let { id } = useParams()
+
     useEffect(() => {
         if (id) {
-            const current = vehicles.find((vehi) => vehi.vehicleNumber === id)
-            setEdit(current);
+            fetch(`${url}fetch-vehicle/${id}`,
+                {
+                    method: 'GET',
+                    credentials: 'include',
+
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success === true) {
+                        // setEdit(data.vehicleInfo);
+                        setEdit({
+                            ...data.vehicleInfo,
+                            lastServiceDate: formatDate(data.vehicleInfo.lastServiceDate),
+                            nextServiceDate: formatDate(data.vehicleInfo.nextServiceDate),
+                        });
+
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                })
+                .catch(err => {
+                    console.log("Error : ", err)
+                    alert("Trouble in connecting to the Server !!!")
+                })
         }
     }, [])
 
-
     let Update = (e) => {
         e.preventDefault()
-        console.log("Views", edit)
-    }
 
+        fetch(`${url}vehicle-maintance/${id}`,
+            {
+                method: 'PUT',
+                headers:
+                {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+
+                credentials: 'include',
+                body: JSON.stringify({
+                    name: edit.name, manufacturer: edit.manufacturer, yearofmanufacture: edit.yearOfManufacture,
+                    type: edit.type, desc: edit.desc, lastServiceDate: edit.lastServiceDate, nextServiceDate: edit.nextServiceDate
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === true) {
+                    alert(data.message)
+                    use('/vehicle-details')
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            })
+
+    }
 
     function Change(e, values) {
         e.preventDefault();
@@ -82,20 +117,21 @@ export default function EditVehicle() {
         }, 200);
     }
 
+    if (edit === null) {
+        return (<Loading />)
+    }
+
     return (
         <div className="d-flex vh-100 overflow-x-hidden ">
             {/* Sidebar */}
-            {/* Sidebar Component */}
+
             <Sidebar sideBar={sideBar} setSidebar={setSidebar} change={change} Change={Change} />
 
-            {/* Main Content */}
             <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
 
                 {/* Header Component */}
                 <Header sideBar={sideBar} setSidebar={setSidebar} />
 
-
-                {/* Dashboard Cards */}
                 <main className="container-fluid py-4  flex-grow-1 dash_content">
 
                     {/* Main Content */}
@@ -113,11 +149,9 @@ export default function EditVehicle() {
                                                 <div className="card-body p-md-5 text-black">
                                                     <h3 className="mb-5 text-uppercase text-center"> Update Vehicle Form</h3>
 
-
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form1">Vehicle Number </label>
-                                                        <input type="text" id="form1" className="form-control form-control-lg" value={edit.vehicleNumber || ''}
-                                                            onChange={(e) => setEdit({ ...edit, vehicleNumber: e.target.value })} />
+                                                        <p className='form-control form-control-lg'>{edit.vehicleNumber}</p>
 
                                                     </div>
 
@@ -128,25 +162,26 @@ export default function EditVehicle() {
 
                                                     </div>
 
-
                                                     <div className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form3">Manufacturer</label>
                                                         <input type="text" id="form3" className="form-control form-control-lg" value={edit.manufacturer || ''}
                                                             onChange={(e) => setEdit({ ...edit, manufacturer: e.target.value })} />
-
                                                     </div>
-
 
                                                     <div className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form4"> Year of Manufacture</label>
-                                                        <input type="text" id="form4" className="form-control form-control-lg"
-                                                            value={edit.yearOfManufacture || ''} onChange={(e) => setEdit({ ...edit, yearOfManufacture: e.target.value })} />
+                                                        <input type="nutextmber" id="form4" className="form-control form-control-lg"
+                                                            value={edit.yearOfManufacture || ''} onChange={(e) => setEdit({ ...edit, yearOfManufacture: Number(e.target.value) })} />
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form5">Type</label>
-                                                        <input type="text" id="form5" className="form-control form-control-lg" value={edit.type || ''}
-                                                            onChange={(e) => setEdit({ ...edit, type: e.target.value })} />
+                                                        <select className='form-select' aria-label="select status " value={edit.type} onChange={(e) => setEdit({ ...edit, type: e.target.value })}>
+                                                            <option value=""> Select Truck</option>
+                                                            <option value="Tipper Truck">Tipper Truck</option>
+                                                            <option value="Container Truck">Container Truck</option>
+                                                            <option value="Tanker Truck">Tanker Truck</option>
+                                                        </select>
 
                                                     </div>
 
@@ -154,25 +189,19 @@ export default function EditVehicle() {
                                                         <label className="form-label fw-bold" htmlFor="form6">Description</label>
                                                         <input type="text" id="form6" className="form-control form-control-lg"
                                                             value={edit.desc || ''} onChange={(e) => setEdit({ ...edit, desc: e.target.value })} />
-
                                                     </div>
-
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form7">Last Service Date</label>
-                                                        <input type="date" id="form7" className="form-control form-control-lg" value={edit.lastServiceDate || ''}
+                                                        <input type="date" id="form7" className="form-control form-control-lg" value={edit.lastServiceDate}
                                                             onChange={(e) => setEdit({ ...edit, lastServiceDate: e.target.value })} />
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form8">Next Service Date</label>
-                                                        <input type="date" id="form8" className="form-control form-control-lg" value={edit.nextServiceDate || ''}
+                                                        <input type="date" id="form8" className="form-control form-control-lg" value={edit.nextServiceDate}
                                                             onChange={(e) => setEdit({ ...edit, nextServiceDate: e.target.value })} />
-
                                                     </div>
-
-
 
                                                     <div className="d-flex justify-content-end pt-3">
                                                         <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-light btn-lg" onClick={() => use('/vehicle-details')}>Cancel</button>

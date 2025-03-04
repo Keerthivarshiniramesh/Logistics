@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import image from '../assest/login_image.jpg'
 import { useNavigate } from 'react-router-dom'
+
 export default function Login() {
 
+    const url = process.env.REACT_APP_URL
+   
     let [valid, setValid] = useState({ email: '', pwd: '' })
     let [check, setCheck] = useState(false)
 
@@ -16,48 +19,44 @@ export default function Login() {
             [keys]: values
 
         }))
-
     }
 
     let Submits = (e) => {
         e.preventDefault()
 
-        if (valid.email === ' ' || valid.pwd === '') {
+        if (valid.email === '' || valid.pwd === '') {
             setCheck(true)
         }
         else {
             setCheck(false)
-            use('/dashboard')
-            // fetch(`${beurl}login`, {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //         "Accept": "application/json"
-            //     },
-            //     credentials: "include",
-            //     body: JSON.stringify({ email: valid.email, password: valid.pwd })
-            // })
-            //     .then(res => res.json())
-            //     .then(data => {
-            //         if (data.success === true) {
-            //             alert(data.message)
-            //             // use('/home')
 
+            fetch(`${url}login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({ email: valid.email, password: valid.pwd })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success === true) {
+                        alert(data.message)
+                        use('/dashboard')
+                    }
+                    else {
 
-            //         }
-            //         else {
-            //             // alert(data.message)
-            //             setCheck(true)
-
-            //         }
-            //     })
-            //     .catch(err => {
-            //         console.log("Error in Login", err)
-            //         alert("Trouble in Conecting to Server !!")
-            //     })
-
+                        setCheck(true)
+                    }
+                })
+                .catch(err => {
+                    console.log("Error in Login", err)
+                    alert("Trouble in Conecting to Server !!")
+                })
         }
     }
+
     return (
         <div className='login_bg d-flex flex-column justify-content-center align-items-center w-100'>
 

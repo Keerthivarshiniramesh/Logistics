@@ -3,6 +3,7 @@ import edit_employee from '../assest/edit_employee.png'
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import Loading from './Loading';
 
 export default function EditEmployee() {
 
@@ -11,53 +12,15 @@ export default function EditEmployee() {
     const use = useNavigate()
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-
-
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    const url = process.env.REACT_APP_URL
 
 
-    const employees = [{
-        id: 1,
-        name: "John Doe",
-        joinedDate: "2023-05-10T00:00:00Z",
-        workingStatus: false,
-        releavedOn: "2024-02-05T10:00:00Z",
-        address: "26 St, Coimbatore",
-        identityType: "Aadhar",
-        identityNumber: "1234-5678-9012",
-        drivenTrips: 26,
-        salaryPerMonth: 10000,
-        sendTotalSalary: 15000,
-        remainingSalary: 5000,
-        salaryTransactions: [
-            { id: 1, description: "jan salary", amount: 10000 },
-            { id: 2, description: "feb salary advance", amount: 5000 }
-        ]
-    },
-    {
-        id: 2,
-        name: "Edward",
-        joinedDate: "2024-10-10T00:00:00Z",
-        workingStatus: true,
-        releavedOn: "",
-        address: "35 St, Coimbatore",
-        identityType: "Aadhar",
-        identityNumber: "2134-7658-0921",
-        drivenTrips: 12,
-        salaryPerMonth: 20000,
-        sendTotalSalary: 20000,
-        remainingSalary: 10000,
-        salaryTransactions: [
-            { id: 1, description: "jan salary", amount: 20000 },
-            { id: 2, description: "feb salary advance", amount: 10000 }
-        ]
-    }
-    ];
 
     let { id } = useParams()
     console.log(typeof (id))
@@ -65,6 +28,8 @@ export default function EditEmployee() {
     let [edit, setEdit] = useState({
 
         name: "",
+        Email: '',
+        phoneNumber: '',
         joinedDate: "",
         workingStatus: false,
         releavedOn: "",
@@ -74,28 +39,84 @@ export default function EditEmployee() {
         salaryPerMonth: "",
     })
 
+    useEffect(() => {
+        if (id) {
+            fetch(`${url}fetch-employee/${id}`,
+                {
+                    method: 'GET',
+                    credentials: 'include',
+
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success === true) {
+                        setEdit(data.EmployeeData);
+                        if (data.EmployeeData.workingStatus === true) {
+                            setActive(true)
+                        }
+                        else {
+                            setActive(false)
+                        }
+
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                })
+                .catch(err => {
+                    console.log("Error : ", err)
+                    alert("Trouble in connecting to the Server !!!")
+                })
+
+        }
+    }, [])
+
 
     const [active, setActive] = useState(false)
 
     console.log(active)
-    useEffect(() => {
-        if (id) {
-            const current = employees.find((emp) => emp.id === Number(id))
-            console.log("Current value", current)
-            setEdit(current);
-            if (current.workingStatus === true) {
-                setActive(true)
-            }
-            else {
-                setActive(false)
-            }
-        }
-    }, [])
-    console.log(edit)
+
 
     let Update = (e) => {
+        // name, phonenumber, joinedDate, address, identityType, identityNumber, workingStatus
+
         e.preventDefault()
-        console.log("Views", edit)
+
+        fetch(`${url}Update-employee/${id}`,
+            {
+                method: 'PUT',
+                headers:
+                {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    name: edit.name, phonenumber: edit.phoneNumber, joinedDate: edit.joinedDate, address: edit.address,
+                    identityType: edit.identityType, identityNumber: edit.identityNumber, workingStatus: edit.workingStatus,
+                    releavedOn: edit.releavedOn
+                })
+
+
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                if (data.success === true) {
+                    alert(data.message)
+                    console.log(edit)
+                    // use('/vehicle-details')
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            })
+
     }
 
     function Change(e, values) {
@@ -108,6 +129,10 @@ export default function EditEmployee() {
             else if (values === "Employee") use("/employee_details");
             else if (values === "Trip") use("/trip_details");
         }, 200);
+    }
+    if (edit === null)
+    {
+        return(<Loading />)
     }
 
     return (
@@ -123,7 +148,6 @@ export default function EditEmployee() {
 
                 {/* Dashboard Cards */}
                 <main className="container-fluid py-4  flex-grow-1 dash_content">
-
                     {/* Main Content */}
 
                     <section className="h-100">
@@ -139,21 +163,29 @@ export default function EditEmployee() {
                                                 <div className="card-body p-md-5 text-black">
                                                     <h3 className="mb-5 text-uppercase text-center"> Update Employee Detials</h3>
 
-
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form1">Name </label>
                                                         <input type="text" id="form1" className="form-control form-control-lg" value={edit.name || ''}
                                                             onChange={(e) => setEdit({ ...edit, name: e.target.value })} />
+                                                    </div>
 
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form1">Email </label>
+                                                        <input type="email" id="form1" className="form-control form-control-lg" value={edit.Email || ''}
+                                                            onChange={(e) => setEdit({ ...edit, Email: e.target.value })} />
+                                                    </div>
+
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form1">Phone Number </label>
+                                                        <input type="text" id="form1" className="form-control form-control-lg" value={edit.phoneNumber || ''}
+                                                            onChange={(e) => setEdit({ ...edit, phoneNumber: e.target.value })} />
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form2">Joined Date</label>
                                                         <input type="date" id="form2" className="form-control form-control-lg" value={edit.joinedDate ? edit.joinedDate.split('T')[0] : ''}
                                                             onChange={(e) => setEdit({ ...edit, joinedDate: e.target.value })} />
-
                                                     </div>
-
 
                                                     <div className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form3">Working Status</label>
@@ -165,7 +197,6 @@ export default function EditEmployee() {
                                                             }} />Active
 
                                                     </div>
-
 
                                                     <div className={`form-outline mb-2 ${active ? 'disabled-div' : ''}`}>
                                                         <label className="form-label fw-bold" htmlFor="form4"> Releaved On</label>
@@ -197,8 +228,8 @@ export default function EditEmployee() {
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form8">Per Month Salary</label>
-                                                        <input type="text" id="form8"
-                                                            className="form-control form-control-lg" value={edit.salaryPerMonth || ''} onChange={(e) => setEdit({ ...edit, salaryPerMonth: e.target.value })} />
+                                                        <p type="text" id="form8"
+                                                            className="form-control form-control-lg" >{edit.salaryPerMonth} </p>
 
                                                     </div>
 

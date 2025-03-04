@@ -3,6 +3,7 @@ import view_trip from '../assest/trip_view.png'
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import Loading from './Loading';
 
 export default function ViewTrips() {
 
@@ -17,48 +18,7 @@ export default function ViewTrips() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const trips = [{
-        id: 1,
-        vehicleNumber: "TN10AB1234",
-        employeeName: "John",
-        startLocation: "Erode",
-        endLocation: "Chennai",
-        startTime: "2024-02-01T08:00:00Z",
-        endTime: "2024-02-02T22:00:00Z",
-        status: "in-transit",
-        expenses: [
-            { expenseID: "EXP001", type: "vehicle", amount: 5000, desc: "Fuel" },
-            { expenseID: "EXP002", type: "toll", amount: 2000, descr: "Toll Charges" },
-            { expenseID: "EXP003", type: "other", amount: 2000, desc: "Other Charges" },
-            { expenseID: "EXP004", type: "salary", amount: 3000, desc: "Driver salary" }
-        ],
-        earnedIncome: 15000,
-        totalExpenses: 10000,
-        profit: 5000,
-
-    },
-
-    {
-        id: 2,
-        vehicleNumber: "TN10AB1256",
-        employeeName: "Edward",
-        startLocation: "Covai",
-        endLocation: "Chennai",
-        startTime: "2024-02-01T08:00:00Z",
-        endTime: "2024-02-02T22:00:00Z",
-        status: "Delivered",
-        expenses: [
-            { expenseID: "EXP001", type: "vehicle", amount: 5000, desc: "Fuel" },
-            { expenseID: "EXP002", type: "toll", amount: 2000, descr: "Toll Charges" },
-            { expenseID: "EXP003", type: "other", amount: 2000, desc: "Other Charges" },
-            { expenseID: "EXP004", type: "salary", amount: 3000, desc: "Driver salary" }
-        ],
-        earnedIncome: 20000,
-        totalExpenses: 8000,
-        profit: 12000,
-
-    }
-    ]
+    const url = process.env.REACT_APP_URL
 
     let [view, setView] = useState({
 
@@ -77,13 +37,59 @@ export default function ViewTrips() {
 
     let { id } = useParams()
 
+    const [employees, setEmployee] = useState(null);
+
+
     useEffect(() => {
-        if (id) {
-            const current = trips.find((trip) => trip.id === Number(id))
-            setView(current);
-        }
+        fetch(`${url}fetch-employee`,
+            {
+                method: 'GET',
+                credentials: 'include',
+
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === true) {
+                    setEmployee(data.EmployeeData);
+
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            })
+
     }, [])
 
+
+    useEffect(() => {
+        if (id) {
+            fetch(`${url}fetch-trip/${id}`,
+                {
+                    method: 'GET',
+                    credentials: 'include',
+
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success === true) {
+                        setView(data.trip);
+
+
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                })
+                .catch(err => {
+                    console.log("Error : ", err)
+                    alert("Trouble in connecting to the Server !!!")
+                })
+        }
+    }, [])
 
     function Change(e, values) {
         e.preventDefault();
@@ -96,8 +102,20 @@ export default function ViewTrips() {
             else if (values === "Trip") use("/trip_details");
         }, 200);
     }
+    const [empName, setEmpName] = useState('')
+    useEffect(() => {
+        if (employees) {
+            let emp_name = employees.find((emp, index) => emp.id === view.employeeId)
+            if (emp_name) {
+                setEmpName(emp_name)
+            }
+        }
 
+    }, [employees])
 
+    if (view === null || employees === null) {
+        return (<Loading />)
+    }
     return (
         <div className="d-flex vh-100 overflow-x-hidden ">
             {/* Sidebar Component */}
@@ -128,50 +146,41 @@ export default function ViewTrips() {
                                                 <div className="card-body p-md-5 text-black">
                                                     <h3 className="mb-5 text-uppercase text-center">  Trip Details</h3>
 
-
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Vehicle Number : </label>
-                                                        <p className='ps-3 d-inline-block'>{view.vehicleNumber}</p>
-
+                                                        <p className='ps-3 d-inline-block'>{view.vehicleNumber.toUpperCase()}</p>
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Employee Name : </label>
-                                                        <p className='ps-3 d-inline-block'>{view.employeeName}</p>
-
+                                                        <p className='ps-3 d-inline-block'>{empName.name}</p>
                                                     </div>
 
 
                                                     <div className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" > Start Location: </label>
                                                         <p className='ps-3 d-inline-block'>{view.startLocation}</p>
-
                                                     </div>
 
 
                                                     <div className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" > End Location : </label>
                                                         <p className='ps-3 d-inline-block'>{view.endLocation}</p>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Start Date : </label>
                                                         <p className='ps-3 d-inline-block'>{view.startTime}</p>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6 " >End Date: </label>
                                                         <p className='ps-3 d-inline-block'>{view.endTime}</p>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Status : </label>
-                                                        <p className={`badge ps-3 d-inline-block ${view.status === 'in-transit' ? 'bg-success' : 'bg-danger'}`}>{view.status}</p>
-
-
+                                                        <p className={`badge ps-3 d-inline-block ${view.status === 'cancelled' ? 'bg-danger' : 'bg-success'}`}>{view.status}</p>
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
@@ -191,7 +200,7 @@ export default function ViewTrips() {
                                                                         <td className='fw-bold'>{index + 1}</td>
                                                                         <td>{expense.type}</td>
                                                                         <td className=''>{expense.amount}</td>
-                                                                        <td className=''>{expense.desc}</td>
+                                                                        <td className=''>{expense.description}</td>
                                                                     </tr>
                                                                 ))}
                                                             </tbody>
@@ -200,22 +209,16 @@ export default function ViewTrips() {
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Earned Income  : </label>
                                                         <p className={`ps-3 d-inline-block `}>{view.earnedIncome}</p>
-
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Total Expenses : </label>
                                                         <p className={` ps-3 d-inline-block `}>{view.totalExpenses}</p>
-
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Profit : </label>
                                                         <p className={` ps-3 d-inline-block `}>{view.profit}</p>
-
-
                                                     </div>
 
                                                     <div className="d-flex justify-content-end pt-1">

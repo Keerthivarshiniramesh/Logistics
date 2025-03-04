@@ -10,6 +10,8 @@ export default function EmployeeRegister() {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [change, setChange] = useState('Employee')
 
+    const url = process.env.REACT_APP_URL
+
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
@@ -20,7 +22,9 @@ export default function EmployeeRegister() {
 
     let [employee, setEmployee] = useState({
         name: "",
-        joinedDate: "",
+        number: '',
+        email: '',
+        joinedDate: new Date().toISOString(),
         workingStatus: false,
         releavedOn: "",
         address: "",
@@ -28,10 +32,7 @@ export default function EmployeeRegister() {
         identityNumber: "",
         salaryPerMonth: "",
 
-
     })
-
-
 
     const Create = (e, keys) => {
         let value = e.target.value
@@ -55,10 +56,40 @@ export default function EmployeeRegister() {
         }
     }
 
-
     const Save = (e) => {
+
         e.preventDefault()
-        console.log(employee)
+        
+        fetch(`${url}create-employee`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    name: employee.name, email: employee.email, phonenumber: employee.number, joinedDate: employee.joinedDate,
+                    salaryPermonth: Number(employee.salaryPerMonth), address: employee.address, identityType: employee.identityType, identityNumber: employee.identityNumber
+                    , workingStatus: employee.workingStatus
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(employee)
+                if (data.success === true) {
+                    alert(data.message)
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            }
+            )
+
     }
 
     function Change(e, values) {
@@ -96,9 +127,7 @@ export default function EmployeeRegister() {
                                     <div className="card card-registration my-4">
                                         <div className="row g-0">
                                             <div className="col-xl-6 d-none d-xl-block">
-                                                <img src={emp_register}
-                                                    alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover "
-                                                />
+                                                <img src={emp_register} alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover " />
                                             </div>
                                             <div className="col-xl-6">
                                                 <div className="card-body p-md-5 text-black">
@@ -108,6 +137,18 @@ export default function EmployeeRegister() {
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form1"> Name </label>
                                                         <input type="text" id="form1" className="form-control form-control-lg" value={employee.name} onChange={(e) => Create(e, 'name')} />
+
+                                                    </div>
+
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="forms"> Phone Number </label>
+                                                        <input type="text" id="forms" className="form-control form-control-lg" value={employee.number} onChange={(e) => Create(e, 'number')} />
+
+                                                    </div>
+
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="forms1"> Email </label>
+                                                        <input type="email" id="forms1" className="form-control form-control-lg" value={employee.email} onChange={(e) => Create(e, 'email')} />
 
                                                     </div>
 
@@ -172,6 +213,5 @@ export default function EmployeeRegister() {
                 </main>
             </div>
         </div>
-
     )
 }

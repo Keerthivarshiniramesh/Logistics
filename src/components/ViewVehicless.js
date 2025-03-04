@@ -3,6 +3,7 @@ import view_vehi from '../assest/view_vehicle.jpg'
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import Loading from './Loading';
 
 export default function ViewVehicless() {
 
@@ -11,53 +12,51 @@ export default function ViewVehicless() {
     const use = useNavigate()
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+    const url = process.env.REACT_APP_URL
+
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const vehicles = [
-        {
-            vehicleNumber: "TN10AB1234",
-            name: "Truck-001",
-            manufacturer: "Tata",
-            yearOfManufacture: 2020,
-            type: "Heavy Truck",
-            desc: "Regular maintenance required",
-            lastServiceDate: '2025-01-05',
-            nextServiceDate: '2025-04-21'
-        },
-        {
-            vehicleNumber: "TN10AB1256",
-            name: "Truck-002",
-            manufacturer: "AL",
-            yearOfManufacture: 2021,
-            type: "Truck",
-            desc: "Regular maintenance required",
-            lastServiceDate: '2025-02-05',
-            nextServiceDate: '2025-05-15'
-        }
-    ];
+
 
     let [view, setView] = useState({
-
-        vehicleNumber: '',
-        name: '',
-        manufacturer: '',
+        vehicleNumber: "",
+        name: "",
+        manufacturer: "",
         yearOfManufacture: '',
-        type: '',
-        desc: '',
-        lastServiceDate: '',
-        nextServiceDate: ''
+        type: "",
+        desc: "",
+        lastServiceDate: new Date().toISOString(),
+        nextServiceDate: new Date().toISOString()
 
     })
 
     let { id } = useParams()
     useEffect(() => {
         if (id) {
-            const current = vehicles.find((vehi) => vehi.vehicleNumber === id)
-            setView(current);
+            fetch(`${url}fetch-vehicle/${id}`,
+                {
+                    method: 'GET',
+                    credentials: 'include',
+
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success === true) {
+                        setView(data.vehicleInfo);
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                })
+                .catch(err => {
+                    console.log("Error : ", err)
+                    alert("Trouble in connecting to the Server !!!")
+                })
+
         }
     }, [])
 
@@ -72,25 +71,22 @@ export default function ViewVehicless() {
             else if (values === "Trip") use("/trip_details");
         }, 200);
     }
-
+    if (view === null) {
+        return (<Loading />)
+    }
     return (
         <div className="d-flex vh-100 overflow-x-hidden ">
 
             {/* Sidebar Component */}
             <Sidebar sideBar={sideBar} setSidebar={setSidebar} change={change} Change={Change} />
 
-            {/* Main Content */}
             <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
 
-
-                {/* Header Component */}
                 <Header sideBar={sideBar} setSidebar={setSidebar} />
 
-                {/* Dashboard Cards */}
                 <main className="container-fluid py-4  flex-grow-1 dash_content">
 
                     {/* Main Content */}
-
                     <section className="h-100">
                         <div className="container py-5 h-100">
                             <div className="row d-flex justify-content-center align-items-center h-100">
@@ -109,7 +105,6 @@ export default function ViewVehicless() {
                                                     <div data-mdb-input-init className="form-outline mb-4">
                                                         <label className="form-label  fw-bold fs-6" >Vehicle Number : </label>
                                                         <p className='ps-3 d-inline-block'>{view.vehicleNumber}</p>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
@@ -121,7 +116,6 @@ export default function ViewVehicless() {
                                                     <div className="form-outline mb-4">
                                                         <label className="form-label  fw-bold fs-6" >Manufacturer : </label>
                                                         <p className='ps-3 d-inline-block'>{view.manufacturer}</p>
-
                                                     </div>
 
 
@@ -133,24 +127,21 @@ export default function ViewVehicless() {
                                                     <div data-mdb-input-init className="form-outline mb-4">
                                                         <label className="form-label  fw-bold fs-6" >Type : </label>
                                                         <p className='ps-3 d-inline-block'>{view.type}</p>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
                                                         <label className="form-label fw-bold fs-6" >Description :</label>
                                                         <p className='ps-3 d-inline-block'>{view.desc}</p>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
                                                         <label className="form-label fw-bold fs-6" >Last Service Date :</label>
                                                         <p className='ps-3 d-inline-block'>{view.lastServiceDate}</p>
-
                                                     </div>
+
                                                     <div data-mdb-input-init className="form-outline mb-4">
                                                         <label className="form-label fw-bold fs-6" >Next Service Date :</label>
                                                         <p className='ps-3 d-inline-block'>{view.nextServiceDate}</p>
-
                                                     </div>
 
                                                     <div className="d-flex justify-content-end pt-3">

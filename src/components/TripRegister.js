@@ -8,9 +8,9 @@ export default function TripRegister() {
     const [sideBar, setSidebar] = useState(false);
     const use = useNavigate()
     const [change, setChange] = useState('Trip')
-    const [employeeId, setemployeeId] = useState("Employee Id");
-
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    const url = process.env.REACT_APP_URL
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
@@ -18,70 +18,68 @@ export default function TripRegister() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const employees = [{
-        id: 1,
-        name: "John Doe",
-        joinedDate: "2023-05-10T00:00:00Z",
-        workingStatus: "Active",
-        releavedOn: "2024-02-05T10:00:00Z",
-        address: "26 St, Coimbatore",
-        identityType: "Aadhar",
-        identityNumber: "1234-5678-9012",
-        drivenTrips: 26,
-    },
-    {
-        id: 2,
-        name: "Edward",
-        joinedDate: "2024-10-10T00:00:00Z",
-        workingStatus: "Active",
-        releavedOn: "2026-02-05T10:00:00Z",
-        address: "35 St, Coimbatore",
-        identityType: "Aadhar",
-        identityNumber: "2134-7658-0921",
-        drivenTrips: 12,
-    }
-    ];
+    const [employees, setEmployee] = useState(null);
 
-    const vehicles = [
-        {
-            vehicleNumber: "TN10AB1234",
-            name: "Truck-001",
-            manufacturer: "Tata",
-            yearOfManufacture: 2020,
-            type: "Heavy Truck",
-            desc: "Regular maintenance required",
-            lastServiceDate: '2025-02-05',
-            nextServiceDate: '2025-05-15'
-        },
-        {
-            vehicleNumber: "TN10AB1256",
-            name: "Truck-002",
-            manufacturer: "AL",
-            yearOfManufacture: 2021,
-            type: "Truck",
-            desc: "Regular maintenance required",
-            lastServiceDate: '2025-01-05',
-            nextServiceDate: '2025-04-21'
-        }
-    ];
+    useEffect(() => {
+        fetch(`${url}fetch-employee`,
+            {
+                method: 'GET',
+                credentials: 'include',
 
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === true) {
+                    setEmployee(data.EmployeeData);
+
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            })
+
+    }, [])
+    let [vehicles, setVehicle] = useState(null)
+
+    useEffect(() => {
+        fetch(`${url}fetch-vehicle`,
+            {
+                method: 'GET',
+                credentials: 'include',
+
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === true) {
+                    setVehicle(data.vehicleInfo);
+
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            })
+
+    }, [])
 
     let [trips, setTrips] = useState({
         vehicleNumber: "",
-        employeeName: '',
+        employeeId: '',
         startLocation: " ",
         endLocation: " ",
         startTime: " ",
         endTime: " ",
         status: '',
         expenses: []
-        // { expenseID: "", type: "", amount: "''", description: "" }
-        // { "expenseID": "EXP002", "type": "toll", "amount": 2000, "description": "Toll Charges" },
-        // { "expenseID": "EXP003", "type": "other", "amount": 2000, "description": "Other Charges" },
-        // { "expenseID": "EXP004", "type": "salary", "employeeID": 1, "amount": 3000, "description": "Driver salary" }
 
     })
-
 
     const Create = (e, keys) => {
         let { value } = e.target
@@ -104,14 +102,15 @@ export default function TripRegister() {
         let amount = Number(amountRef.current.value)
         let desc = descRef.current.value
 
-        // console.log("h w:", typeof heights, widths)
-
         setTrips((prev) => ({
             ...prev,
             expenses: [
                 ...prev.expenses,
                 { type: type, amount: amount, description: desc },],
         }));
+        typeRef.current.value = ""
+        amountRef.current.value = ""
+        descRef.current.value = ""
 
     }
 
@@ -123,17 +122,38 @@ export default function TripRegister() {
             tempTrips.expenses = tempExpenses
             return tempTrips
         })
-        // console.log("Create after updation:", create)
     }
-
-    const formData = new FormData()
 
     const Save = (e) => {
         e.preventDefault()
-        console.log(trips)
-        // formData.append()
-    }
 
+        fetch(`${url}create-trip`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    vehicleNumber: trips.vehicleNumber, employeeId: Number(trips.employeeId), startLocation: trips.startLocation,
+                    endLocation: trips.endLocation, startTime: trips.startTime, endTime: trips.endTime, expenses: trips.expenses
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success === true) {
+                    alert(data.message)
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log("Error : ", err)
+                alert("Trouble in connecting to the Server !!!")
+            })
+    }
 
     function Change(e, values) {
         e.preventDefault();
@@ -145,6 +165,16 @@ export default function TripRegister() {
             else if (values === "Employee") use("/employee_details");
             else if (values === "Trip") use("/trip_details");
         }, 200);
+    }
+
+    if (vehicles === null || employees === null) {
+        return (<div>
+            <div className="d-flex justify-content-center m-5 align-content-center">
+                <div className="spinner-border" role="status">
+                    <p></p><span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>)
     }
 
     return (
@@ -170,8 +200,7 @@ export default function TripRegister() {
                                         <div className="row g-0">
                                             <div className="col-xl-6 d-none d-xl-block">
                                                 <img src={trip_register}
-                                                    alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover"
-                                                />
+                                                    alt="Sample photo" className="img-fluid w-100 h-100 object-fit-cover" />
                                             </div>
                                             <div className="col-xl-6">
                                                 <div className="card-body p-md-5 text-black">
@@ -189,79 +218,70 @@ export default function TripRegister() {
                                                                 ))
                                                             }
                                                         </select>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label me-3 fw-bold" >Employee Name  </label>
-                                                        <select className='form-select' aria-label="select emp name" value={trips.employeeName} onChange={(e) => Create(e, 'employeeName')}>
+                                                        <select className='form-select' aria-label="select emp name" value={trips.employeeId} onChange={(e) => Create(e, 'employeeId')}>
                                                             <option value=""> Select Employee Name</option>
                                                             {
                                                                 employees.map((emp, index) =>
                                                                 (
-                                                                    <option key={index} value={emp.name}>{emp.name}</option>
+                                                                    <option key={index} value={emp.id}>{emp.name}</option>
                                                                 ))
                                                             }
                                                         </select>
-
                                                     </div>
-
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form3">Start Location</label>
                                                         <input type="text" id="form3" className="form-control form-control-lg" value={trips.startLocation} onChange={(e) => Create(e, 'startLocation')} />
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form4">End Location</label>
                                                         <input type="text" id="form4" className="form-control form-control-lg" value={trips.endLocation} onChange={(e) => Create(e, 'endLocation')} />
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
-                                                        <label className="form-label fw-bold" htmlFor="form5">Start Date</label>
-                                                        <input type="date" id="form5" className="form-control form-control-lg" value={trips.startTime} onChange={(e) => Create(e, 'startTime')} />
-
+                                                        <label className="form-label fw-bold" htmlFor="form5">Start Time</label>
+                                                        <input type="datetime-local" id="form5" className="form-control form-control-lg" value={trips.startTime} onChange={(e) => Create(e, 'startTime')} />
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
-                                                        <label className="form-label fw-bold" htmlFor="form6">End Date</label>
-                                                        <input type="date" id="form6" className="form-control form-control-lg" value={trips.endTime} onChange={(e) => Create(e, 'endTime')} />
-
+                                                        <label className="form-label fw-bold" htmlFor="form6">End Time</label>
+                                                        <input type="datetime-local" id="form6" className="form-control form-control-lg" value={trips.endTime} onChange={(e) => Create(e, 'endTime')} />
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label me-3 fw-bold" >Status</label>
-                                                        <select className='form-select' aria-label="select status" value={trips.status} onChange={(e) => Create(e, 'status')}>
-                                                            <option value=""> Select Status</option>
-                                                            <option value="Processed">Processed</option>
-                                                            <option value="in-transit">in-transit</option>
-                                                            <option value="Cancelled">Cancelled</option>
-                                                            <option value="Delivered">Delivered</option>
-                                                        </select>
+                                                        <select className='form-select' aria-label="select status" value="created" disabled>
 
+                                                            <option value="created">created</option>
+                                                            <option value="in-transit">in-transit</option>
+                                                            <option value="cancelled">cancelled</option>
+                                                            <option value="delivered">delivered</option>
+                                                        </select>
                                                     </div>
 
                                                     <label className="form-label fs-5 text-primary fw-bold" >Expenses</label>
-                                                    <div class="row">
-                                                        <div class="col-md-6 mb-2">
-                                                            <div data-mdb-input-init class="form-outline">
-                                                                <label class="form-label fw-bold" for="form7">Type</label>
+                                                    <div className="row">
+                                                        <div className="col-md-6 mb-2">
+                                                            <div data-mdb-input-init className="form-outline">
+                                                                <label className="form-label fw-bold" htmlFor="form7">Type</label>
                                                                 <select className='form-select' aria-label="select status" ref={typeRef}>
                                                                     <option value=""> Select Types</option>
-                                                                    <option value="Fuel">Fuel</option>
-                                                                    <option value="Toll">Toll</option>
-                                                                    <option value="Other">Other</option>
+                                                                    <option value="vehicle">Vehicle</option>
+                                                                    <option value="toll">Toll</option>
+                                                                    <option value="other">Other</option>
 
                                                                 </select>
-
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 mb-2">
-                                                            <div data-mdb-input-init class="form-outline">
-                                                                <label class="form-label fw-bold" for="form8">Amount</label>
-                                                                <input type="text" id="form8" class="form-control form-control-lg" ref={amountRef} />
+                                                        <div className="col-md-6 mb-2">
+                                                            <div data-mdb-input-init className="form-outline">
+                                                                <label className="form-label fw-bold" htmlFor="form8">Amount</label>
+                                                                <input type="text" id="form8" className="form-control form-control-lg" ref={amountRef} />
 
                                                             </div>
                                                         </div>

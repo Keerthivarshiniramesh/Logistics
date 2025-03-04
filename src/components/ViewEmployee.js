@@ -3,6 +3,7 @@ import view_emp from '../assest/employee_view.png'
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import Loading from './Loading';
 
 export default function ViewEmployee() {
 
@@ -16,47 +17,14 @@ export default function ViewEmployee() {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+    const url = process.env.REACT_APP_URL
 
-    const employees = [{
-        id: 1,
-        name: "John Doe",
-        joinedDate: "2023-05-10T00:00:00Z",
-        workingStatus: false,
-        releavedOn: "2024-02-05T10:00:00Z",
-        address: "26 St, Coimbatore",
-        identityType: "Aadhar",
-        identityNumber: "1234-5678-9012",
-        drivenTrips: 26,
-        salaryPerMonth: 10000,
-        sendTotalSalary: 15000,
-        remainingSalary: 5000,
-        salaryTransactions: [
-            { id: 1, description: "jan salary", amount: 10000 },
-            { id: 2, description: "feb salary advance", amount: 5000 }
-        ]
-    },
-    {
-        id: 2,
-        name: "Edward",
-        joinedDate: "2024-10-10T00:00:00Z",
-        workingStatus: true,
-        releavedOn: "",
-        address: "35 St, Coimbatore",
-        identityType: "Aadhar",
-        identityNumber: "2134-7658-0921",
-        drivenTrips: 12,
-        salaryPerMonth: 20000,
-        sendTotalSalary: 20000,
-        remainingSalary: 10000,
-        salaryTransactions: [
-            { id: 1, description: "jan salary", amount: 20000 },
-            { id: 2, description: "feb salary advance", amount: 10000 }
-        ]
-    }
-    ];
+
     let [view, setView] = useState({
 
         name: "",
+        Email: '',
+        phoneNumber: "",
         joinedDate: "",
         workingStatus: "",
         releavedOn: "",
@@ -76,8 +44,28 @@ export default function ViewEmployee() {
 
     useEffect(() => {
         if (id) {
-            const current = employees.find((emp) => emp.id === Number(id))
-            setView(current);
+            fetch(`${url}fetch-employee/${id}`,
+                {
+                    method: 'GET',
+                    credentials: 'include',
+
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success === true) {
+                        setView(data.EmployeeData);
+
+
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                })
+                .catch(err => {
+                    console.log("Error : ", err)
+                    alert("Trouble in connecting to the Server !!!")
+                })
+
         }
     }, [])
 
@@ -94,6 +82,10 @@ export default function ViewEmployee() {
         }, 200);
     }
 
+    if (view === null) {
+        return (<Loading />)
+    }
+
     return (
         <div className="d-flex vh-100 overflow-x-hidden ">
             {/* Sidebar Component */}
@@ -104,7 +96,6 @@ export default function ViewEmployee() {
 
                 {/* Header Component */}
                 <Header sideBar={sideBar} setSidebar={setSidebar} />
-
 
                 {/* Dashboard Cards */}
                 <main className="container-fluid py-4  flex-grow-1 dash_content">
@@ -125,50 +116,51 @@ export default function ViewEmployee() {
                                                 <div className="card-body p-md-5 text-black">
                                                     <h3 className="mb-3 text-uppercase text-center">  Employee Details</h3>
 
-
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Name : </label>
                                                         <p className='ps-3 d-inline-block'>{view.name}</p>
+                                                    </div>
 
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold fs-6" >Email : </label>
+                                                        <p className='ps-3 d-inline-block'>{view.Email}</p>
+                                                    </div>
+
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold fs-6" >Phone Number : </label>
+                                                        <p className='ps-3 d-inline-block'>{view.phoneNumber}</p>
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Joined Date : </label>
                                                         <p className='ps-3 d-inline-block'>{view.joinedDate}</p>
-
                                                     </div>
 
 
                                                     <div className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Working Status : </label>
-                                                        <p className='ps-3 d-inline-block'>{`${view.workingStatus ? 'Active' : 'In-active'}`}</p>
-
+                                                        <p className={`ps-3 d-inline-block badge ${view.workingStatus ? 'bg-success' : 'bg-danger'}`}>{`${view.workingStatus ? 'Active' : 'In-active'}`}</p>
                                                     </div>
 
 
                                                     <div className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" > Releaved On : </label>
                                                         <p className='ps-3 d-inline-block'>{`${view.releavedOn ? view.releavedOn : "-"}`}</p>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Address : </label>
                                                         <p className='ps-3 d-inline-block'>{view.address}</p>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6 " >Identity Type : </label>
                                                         <p className='ps-3 d-inline-block'>{view.identityType}</p>
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Identity Number : </label>
                                                         <p className='ps-3 d-inline-block'>{view.identityNumber}</p>
-
-
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
