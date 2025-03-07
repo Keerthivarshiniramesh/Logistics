@@ -102,6 +102,7 @@ export default function TripDetails() {
             })
     }
 
+
     function Change(e, values) {
         e.preventDefault();
         setChange(values);
@@ -161,6 +162,7 @@ export default function TripDetails() {
                             })}
                         </tbody>
                     </table>
+                    
                 </main>
             </div>
         </div>

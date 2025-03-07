@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
 import image from '../assest/login_image.jpg'
 import { useNavigate } from 'react-router-dom'
+import Header from './Header'
 
 export default function Login() {
 
     const url = process.env.REACT_APP_URL
-   
+
     let [valid, setValid] = useState({ email: '', pwd: '' })
     let [check, setCheck] = useState(false)
 
-    let use = useNavigate()
+
+
+    let navigate = useNavigate()
+
 
     let Validation = (event, keys) => {
 
@@ -41,9 +45,15 @@ export default function Login() {
             })
                 .then(res => res.json())
                 .then(data => {
+
                     if (data.success === true) {
                         alert(data.message)
-                        use('/dashboard')
+                        console.log(data)
+                        // navigate('/dashboard', { state: data.user.fullname })
+                       
+                        localStorage.setItem("userName", JSON.stringify(data.user.fullname))
+                        navigate('/dashboard')
+
                     }
                     else {
 

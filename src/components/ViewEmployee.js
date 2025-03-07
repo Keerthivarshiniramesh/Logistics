@@ -168,10 +168,10 @@ export default function ViewEmployee() {
                                                         <p className='ps-3 d-inline-block'>{view.salaryPerMonth}</p>
                                                     </div>
 
-                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                    {/* <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Driven Trips : </label>
                                                         <p className='ps-3 d-inline-block'>{view.drivenTrips}</p>
-                                                    </div>
+                                                    </div> */}
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold fs-6" >Total Salary Send : </label>

@@ -117,7 +117,7 @@ export default function EditVehicle() {
         }, 200);
     }
 
-    if (edit === null) {
+    if (edit.vehicleNumber === '' || edit.name === '' || edit.manufacturer === '' || edit.yearOfManufacture === '' || edit.type === '' || edit.desc === '' || edit.lastServiceDate === '' || edit.nextServiceDate === '') {
         return (<Loading />)
     }
 

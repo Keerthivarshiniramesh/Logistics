@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import trip_register from '../assest/trip_register.png'
 import Header from './Header';
 import Sidebar from './Sidebar';
+import Loading from './Loading';
 
 export default function TripRegister() {
     const [sideBar, setSidebar] = useState(false);
@@ -77,6 +78,7 @@ export default function TripRegister() {
         startTime: " ",
         endTime: " ",
         status: '',
+        earnedIncome: '',
         expenses: []
 
     })
@@ -137,7 +139,8 @@ export default function TripRegister() {
                 credentials: 'include',
                 body: JSON.stringify({
                     vehicleNumber: trips.vehicleNumber, employeeId: Number(trips.employeeId), startLocation: trips.startLocation,
-                    endLocation: trips.endLocation, startTime: trips.startTime, endTime: trips.endTime, expenses: trips.expenses
+                    endLocation: trips.endLocation, startTime: trips.startTime, endTime: trips.endTime, earnedIncome: Number(trips.earnedIncome),
+                    expenses: trips.expenses
                 })
             })
             .then(res => res.json())
@@ -169,13 +172,7 @@ export default function TripRegister() {
     }
 
     if (vehicles === null || employees === null) {
-        return (<div>
-            <div className="d-flex justify-content-center m-5 align-content-center">
-                <div className="spinner-border" role="status">
-                    <p></p><span className="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        </div>)
+        return (<Loading />)
     }
 
     return (
@@ -252,6 +249,11 @@ export default function TripRegister() {
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form6">End Time</label>
                                                         <input type="datetime-local" id="form6" className="form-control form-control-lg" value={trips.endTime} onChange={(e) => Create(e, 'endTime')} />
+                                                    </div>
+
+                                                    <div data-mdb-input-init className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="form4">Earned Income</label>
+                                                        <input type="text" id="form4" className="form-control form-control-lg" value={trips.earnedIncome} onChange={(e) => Create(e, 'earnedIncome')} />
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">

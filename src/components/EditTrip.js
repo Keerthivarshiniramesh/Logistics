@@ -31,6 +31,7 @@ export default function EditTrip() {
         startTime: "",
         endTime: "",
         status: '',
+        earnedIncome: '',
         expenses: []
 
     })
@@ -138,7 +139,7 @@ export default function EditTrip() {
                 credentials: 'include',
                 body: JSON.stringify({
                     vehicleNumber: edit.vehicleNumber, employeeId: edit.employeeId, startLocation: edit.startLocation, endLocation: edit.endLocation,
-                    startTime: edit.startTime, endTime: edit.endTime, status: edit.status, expenses: exp
+                    startTime: edit.startTime, endTime: edit.endTime, status: edit.status, earnedIncome: Number(edit.earnedIncome), expenses: exp
 
                 })
 
@@ -299,6 +300,13 @@ export default function EditTrip() {
                                                         </select>
                                                     </div>
 
+                                                    <div className="form-outline mb-2">
+                                                        <label className="form-label fw-bold" htmlFor="forms">Earned Income</label>
+                                                        <input type="tel" id="forms" className="form-control form-control-lg" value={edit.earnedIncome || ''}
+                                                            onChange={(e) => setEdit({ ...edit, earnedIncome: e.target.value })} />
+                                                    </div>
+
+
                                                     <div className='d-flex justify-content-between p-1'>
                                                         <label className="form-label fs-5 text-primary fw-bold" >Expenses</label>
                                                         <button className='btn btn-primary ' onClick={() => setView(!view)}>Add</button>
@@ -311,15 +319,25 @@ export default function EditTrip() {
                                                                     <div className='w-100 d-flex justify-content-between align-items-center border rounded m-1 px-1'>
                                                                         <p className='m-0 m-1'>{expense.type}</p>
                                                                     </div>
-                                                                    {exp.map((ex, subIndex) => (
-                                                                        <div key={subIndex} className='w-100 d-flex justify-content-between align-items-center border rounded m-1 px-1'>
-                                                                            <p className='m-0 m-1'>{ex.type}</p>
-                                                                        </div>
-                                                                    ))}
+
+                                                                </div>
+                                                            ))
+                                                        }
+                                                        <p className={`text-primary `}> {exp.length > 0 && "New Expenses"}</p>
+                                                        {
+                                                            exp.map((ex, subIndex) => (
+                                                                <div key={subIndex} className={`  ${view ? "blur-table" : ""}`}>
+
+                                                                    <div className='w-100 d-flex justify-content-between align-items-center border rounded m-1 px-1'>
+
+                                                                        <p className='m-0 m-1'>{ex.type}</p>
+                                                                    </div>
+
                                                                 </div>
                                                             ))
 
                                                         }
+
                                                         <div className=''>
                                                             {
                                                                 view &&

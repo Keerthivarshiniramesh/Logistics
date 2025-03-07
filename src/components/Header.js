@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "../assest/logistics_logo.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Header({ sideBar, setSidebar }) {
     //{adminName}
@@ -8,7 +8,19 @@ export default function Header({ sideBar, setSidebar }) {
 
     let use = useNavigate()
 
-    let [adminName, setadminName] = useState('')
+
+    const [adminName, setAdminName] = useState("");
+
+    useEffect(() => {
+        const storedName = localStorage.getItem("userName");
+        console.log(storedName)
+        if (storedName) {
+            setAdminName(JSON.parse(storedName)); // Parse stored JSON data
+            console.log(adminName)
+        }
+    }, []);
+
+
     useEffect(() => {
         if (url) {
             fetch(`${url}authentication`, {
@@ -18,7 +30,7 @@ export default function Header({ sideBar, setSidebar }) {
                 .then(data => {
                     console.log("Fetched user:", data)
                     if (data.success === true) {
-
+                        // setadminName(data.user)
                     }
                 })
                 .catch(err => {
@@ -38,6 +50,7 @@ export default function Header({ sideBar, setSidebar }) {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 if (data.success === true) {
                     use('/')
                 }

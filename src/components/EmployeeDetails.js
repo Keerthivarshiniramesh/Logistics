@@ -160,8 +160,9 @@ export default function EmployeeDetails() {
                                     <th>Name</th>
                                     <th className='d-none d-md-table-cell'>Joined Date</th>
                                     <th>Status</th>
-                                    <th>Trips</th>
                                     <th>Actions</th>
+                                    {/* <th>Trips</th> */}
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -171,7 +172,7 @@ export default function EmployeeDetails() {
                                         <td><p className="fw-normal mb-1">{emp.name}</p></td>
                                         <td className='d-none d-md-table-cell'><p className="fw-normal mb-1">{emp.joinedDate}</p></td>
                                         <td> <span className={`badge  rounded-pill ${emp.workingStatus === true ? 'bg-success' : 'bg-danger'} `}>{`${emp.workingStatus === true ? 'Active' : 'In-active'}`}</span></td>
-                                        <td><p className="fw-normal mb-1">{emp.drivenTrips}</p></td>
+                                        {/* <td><p className="fw-normal mb-1">{emp.drivenTrips}</p></td> */}
                                         <td>
                                             <i className="bi bi-trash-fill mx-2 px-1 text-danger" role='button' onClick={() => Delete(emp.id)}></i>
                                             <i className="bi bi-pencil-square mx-2 px-1 text-primary" onClick={() => use(`/employee_edit/${emp.id}`)} role='button'></i>

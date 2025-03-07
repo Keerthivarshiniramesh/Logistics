@@ -4,7 +4,7 @@ import Header from "./Header";
 import vehicle from "../assest/vehicle.jpg";
 import employee from "../assest/employee.png";
 import trip from "../assest/trips.jpg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Home() {
     const [sideBar, setSidebar] = useState(false);
@@ -14,13 +14,18 @@ export default function Home() {
 
     // const url = process.env.REACT_APP_URL
 
+    let location = useLocation()
+
+    const adminName = location.state || 'Admin'
+    console.log(adminName)
+
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-  
+
 
     function Change(e, values) {
         e.preventDefault();
