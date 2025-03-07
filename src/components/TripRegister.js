@@ -44,8 +44,12 @@ export default function TripRegister() {
             })
 
     }, [])
-    let [vehicles, setVehicle] = useState(null)
+    if (employees) {
+        var emp_filter = employees.filter(e => e.workingStatus === true)
 
+    }
+
+    let [vehicles, setVehicle] = useState(null)
     useEffect(() => {
         fetch(`${url}fetch-vehicle`,
             {
@@ -222,8 +226,8 @@ export default function TripRegister() {
                                                         <label className="form-label me-3 fw-bold" >Employee Name  </label>
                                                         <select className='form-select' aria-label="select emp name" value={trips.employeeId} onChange={(e) => Create(e, 'employeeId')}>
                                                             <option value=""> Select Employee Name</option>
-                                                            {
-                                                                employees.map((emp, index) =>
+                                                            {emp_filter &&
+                                                                emp_filter.map((emp, index) =>
                                                                 (
                                                                     <option key={index} value={emp.id}>{emp.name}</option>
                                                                 ))

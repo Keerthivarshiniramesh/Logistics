@@ -63,6 +63,10 @@ export default function EditTrip() {
 
     }, [])
 
+    if (employees) {
+        var emp_filter = employees.filter(e => e.workingStatus === true)
+
+    }
     let [vehicles, setVehicle] = useState(null)
 
     useEffect(() => {
@@ -253,8 +257,8 @@ export default function EditTrip() {
                                                         <select className='form-select' aria-label="select emp name" value={edit.employeeId} onChange={(e) => setEdit({ ...edit, employeeId: e.target.value })}>
                                                             <option value=""> Select Employee Name</option>
 
-                                                            {
-                                                                employees.map((emp, index) =>
+                                                            {emp_filter &&
+                                                                emp_filter.map((emp, index) =>
                                                                 (
                                                                     <option key={index} value={emp.id}>{emp.name}</option>
                                                                 ))

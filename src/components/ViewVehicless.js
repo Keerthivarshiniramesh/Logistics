@@ -136,12 +136,12 @@ export default function ViewVehicless() {
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
                                                         <label className="form-label fw-bold fs-6" >Last Service Date :</label>
-                                                        <p className='ps-3 d-inline-block'>{view.lastServiceDate}</p>
+                                                        <p className='ps-3 d-inline-block'>{view.nextServiceDate}</p>
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-4">
                                                         <label className="form-label fw-bold fs-6" >Next Service Date :</label>
-                                                        <p className='ps-3 d-inline-block'>{view.nextServiceDate}</p>
+                                                        <p className='ps-3 d-inline-block'>{view.lastServiceDate}</p>
                                                     </div>
 
                                                     <div className="d-flex justify-content-end pt-3">

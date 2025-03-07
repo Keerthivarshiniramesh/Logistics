@@ -60,6 +60,7 @@ export default function Vehicle() {
       .then(data => {
         if (data.success === true) {
           alert(data.message)
+          use('/vehicle-details')
         }
         else {
           alert(data.message)

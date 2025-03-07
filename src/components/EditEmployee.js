@@ -106,7 +106,7 @@ export default function EditEmployee() {
                 if (data.success === true) {
                     alert(data.message)
                     console.log(edit)
-                    // use('/vehicle-details')
+                    use('/employee_details')
                 }
                 else {
                     alert(data.message)
@@ -130,9 +130,8 @@ export default function EditEmployee() {
             else if (values === "Trip") use("/trip_details");
         }, 200);
     }
-    if (edit === null)
-    {
-        return(<Loading />)
+    if (edit === null) {
+        return (<Loading />)
     }
 
     return (

@@ -70,15 +70,15 @@ export default function Header({ sideBar, setSidebar }) {
 
             <i className="bi bi-list d-md-none" onClick={() => setSidebar(!sideBar)}></i>
 
-            <img src={logo} alt="Logo" style={{ height: "70px" }} className="mx-2" />
+            <img src={logo} alt="Logo" style={{ height: "70px" }} className="mx-2" role="button" />
 
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex align-items-center gap-3" role="button">
                 <div className="d-flex align-items-center gap-1">
                     <i className="bi bi-person-circle text-primary fs-4"></i>
                     <span>{adminName}</span>
                 </div>
-                <div className="d-flex align-items-center gap-1" >
-                    <i className="bi bi-box-arrow-right text-danger fs-4" onClick={Logout}></i>
+                <div className="d-flex align-items-center gap-1" role="button" onClick={Logout}>
+                    <i className="bi bi-box-arrow-right text-danger fs-4" ></i>
                     <span>Logout</span>
                 </div>
             </div>

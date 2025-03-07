@@ -1,4 +1,3 @@
-
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import './css/index.css'
@@ -17,15 +16,9 @@ import TripRegister from './components/TripRegister';
 import EditTrip from './components/EditTrip';
 import ViewTrips from './components/ViewTrips';
 
-
 function App() {
   return (
     <>
-
-      {/* {
-        window.location.pathname !== '/login' && <Home />
-      } */}
-
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/dashboard' element={<Home />} />
@@ -44,39 +37,7 @@ function App() {
       </Routes>
     </>
 
-  )
-}
+  )}
 
 export default App;
-
-
-
-
-// import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-// import { useState } from 'react';
-// import './App.css';
-// import './css/index.css';
-// import Login from './components/Login';
-// import Home from './components/Home';
-// import Vehicle from './components/Vehicle';
-// import VehicleDetails from './components/VehicleDetails';
-
-// function App() {
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-//   return (
-//     <Router>
-//       <Routes>
-//         {/* If not authenticated, redirect to login */}
-//         <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
-//         <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-//         <Route path="/dashboard" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
-//         <Route path="/vehicle" element={isAuthenticated ? <Vehicle /> : <Navigate to="/login" />} />
-//         <Route path="/vehicle-details" element={isAuthenticated ? <VehicleDetails /> : <Navigate to="/login" />} />
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;
 

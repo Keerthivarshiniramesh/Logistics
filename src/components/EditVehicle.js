@@ -22,7 +22,8 @@ export default function EditVehicle() {
 
     const formatDate = (isoString) => {
         if (!isoString) return ""; // Handle empty values
-        return new Date(isoString).toISOString().split('T')[0]; // Extracts "YYYY-MM-DD"
+        const date = new Date(isoString);
+        return isNaN(date.getTime()) ? "" : date.toISOString().split('T')[0]; // Validate date before formatting
     };
 
     let [edit, setEdit] = useState({
@@ -33,8 +34,8 @@ export default function EditVehicle() {
         yearOfManufacture: '',
         type: '',
         desc: '',
-        lastServiceDate: formatDate(new Date()), // Convert to YYYY-MM-DD
-        nextServiceDate: formatDate(new Date())
+        lastServiceDate: '', // Convert to YYYY-MM-DD
+        nextServiceDate: ''
 
     })
 
@@ -54,8 +55,8 @@ export default function EditVehicle() {
                         // setEdit(data.vehicleInfo);
                         setEdit({
                             ...data.vehicleInfo,
-                            lastServiceDate: formatDate(data.vehicleInfo.lastServiceDate),
                             nextServiceDate: formatDate(data.vehicleInfo.nextServiceDate),
+                            // lastServiceDate: formatDate(data.vehicleInfo.lastServiceDate),
                         });
 
                     }
@@ -193,14 +194,14 @@ export default function EditVehicle() {
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form7">Last Service Date</label>
-                                                        <input type="date" id="form7" className="form-control form-control-lg" value={edit.lastServiceDate}
-                                                            onChange={(e) => setEdit({ ...edit, lastServiceDate: e.target.value })} />
+                                                        <input type="date" id="form7" className="form-control form-control-lg" value={edit.nextServiceDate}
+                                                            onChange={(e) => setEdit({ ...edit, nextServiceDate: e.target.value })} />
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form8">Next Service Date</label>
-                                                        <input type="date" id="form8" className="form-control form-control-lg" value={edit.nextServiceDate}
-                                                            onChange={(e) => setEdit({ ...edit, nextServiceDate: e.target.value })} />
+                                                        <input type="date" id="form8" className="form-control form-control-lg" value={edit.lastServiceDate}
+                                                            onChange={(e) => setEdit({ ...edit, lastServiceDate: e.target.value })} />
                                                     </div>
 
                                                     <div className="d-flex justify-content-end pt-3">

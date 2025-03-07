@@ -47,13 +47,13 @@ export default function Home() {
             {/* Main Content */}
             <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
                 {/* Header Component adminName={adminName} */}
-                <Header sideBar={sideBar} setSidebar={setSidebar}  />
+                <Header sideBar={sideBar} setSidebar={setSidebar} />
 
                 {/* Dashboard Cards */}
                 <main className="container-fluid py-4 flex-grow-1 dash_content">
                     <div className="row row-cols-1 row-cols-md-3 g-5 p-4">
                         <div className="col">
-                            <div className="card">
+                            <div className="card" role="button">
                                 <img src={vehicle} className="card-img-top" alt="Vehicle" />
                                 <div className="card-body text-center bg-light">
                                     <button className="card-text text-center w-50 btn rounded fw-bold btn-success" onClick={() => use("/vehicle-details")}>
@@ -62,7 +62,7 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="col">
-                            <div className="card">
+                            <div className="card" role="button">
                                 <img src={employee} className="card-img-top" alt="Employee" />
                                 <div className="card-body text-center bg-light">
                                     <button className="card-text text-center w-50 btn rounded fw-bold btn-success" onClick={() => use("/employee_details")}>
@@ -71,7 +71,7 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="col">
-                            <div className="card">
+                            <div className="card" role="button">
                                 <img src={trip} className="card-img-top" alt="Trip" />
                                 <div className="card-body text-center bg-light">
                                     <button className="card-text text-center w-50 btn rounded fw-bold btn-success"

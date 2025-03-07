@@ -59,7 +59,7 @@ export default function EmployeeRegister() {
     const Save = (e) => {
 
         e.preventDefault()
-        
+
         fetch(`${url}create-employee`,
             {
                 method: 'POST',
@@ -79,6 +79,7 @@ export default function EmployeeRegister() {
                 console.log(employee)
                 if (data.success === true) {
                     alert(data.message)
+                    use('/employee_details')
                 }
                 else {
                     alert(data.message)
