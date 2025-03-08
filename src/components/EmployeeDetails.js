@@ -62,12 +62,21 @@ export default function EmployeeDetails() {
     let [salary, setSalary] = useState({ description: '', amount: '' })
     const [employeeName, setEmployeename] = useState('')
     const [employeeId, setEmployeeid] = useState('')
+    const [check, setCheck] = useState()
 
     let handleSalary = (empId, i) => {
         setView(!view)
         if (empId === employees[i].id)
             setEmployeename(employees[i].name)
         setEmployeeid(employees[i].id)
+        // if (employees[i].salaryPerMonth < employees[i].sendTotalSalary || employees[i].remainingSalary < 0) {
+        //     console.log(employees[i].salaryPerMonth)
+        //     console.log(employees[i].sendTotalSalary)
+        //     console.log(employees[i].remainingSalary)
+        //     setView(false)
+        //     alert("Exceed the allotted salary amount.")
+        // }
+
     }
 
     let createSalary = (e, keys) => {
@@ -108,6 +117,8 @@ export default function EmployeeDetails() {
                 alert("Trouble in connecting to the Server !!!")
             })
     }
+
+
 
     //Delete the employee
     let Delete = (id) => {

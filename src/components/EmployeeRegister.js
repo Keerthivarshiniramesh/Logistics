@@ -19,6 +19,7 @@ export default function EmployeeRegister() {
     }, []);
 
     const [active, setActive] = useState(false)
+    const [check, setCheck] = useState(false)
 
     let [employee, setEmployee] = useState({
         name: "",
@@ -35,9 +36,21 @@ export default function EmployeeRegister() {
     })
 
     const Create = (e, keys) => {
+        let phoneReg = /^[6-9][0-9]{9}$/
         let value = e.target.value
         let types = e.target.type
         let check = e.target.checked
+
+
+        if (keys === 'number') {
+            if (phoneReg.test(value)) {
+                setCheck(false)
+                // console.log("true")
+            }
+            else {
+                setCheck(true)
+            }
+        }
 
         if (types === "checkbox") {
             setEmployee(prev => (
@@ -144,6 +157,9 @@ export default function EmployeeRegister() {
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="forms"> Phone Number </label>
                                                         <input type="text" id="forms" className="form-control form-control-lg" value={employee.number} onChange={(e) => Create(e, 'number')} />
+                                                        {check && (
+                                                            <p className="text-danger">* Enter the valid number</p>
+                                                        )}
 
                                                     </div>
 

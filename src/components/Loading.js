@@ -6,13 +6,11 @@ export default function Loading() {
     const [sideBar, setSidebar] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-
 
     return (
         <div className="d-flex vh-100 overflow-x-hidden">

@@ -20,8 +20,6 @@ export default function ViewVehicless() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-
-
     let [view, setView] = useState({
         vehicleNumber: "",
         name: "",

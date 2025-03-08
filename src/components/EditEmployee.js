@@ -177,7 +177,7 @@ export default function EditEmployee() {
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form1">Phone Number </label>
                                                         <input type="text" id="form1" className="form-control form-control-lg" value={edit.phoneNumber || ''}
-                                                            onChange={(e) => setEdit({ ...edit, phoneNumber: e.target.value })} />
+                                                            onChange={(e) => { setEdit({ ...edit, phoneNumber: e.target.value }) }} />
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import image from '../assest/login_image.jpg'
 import { useNavigate } from 'react-router-dom'
-import Header from './Header'
+
 
 export default function Login() {
 
@@ -10,10 +10,7 @@ export default function Login() {
     let [valid, setValid] = useState({ email: '', pwd: '' })
     let [check, setCheck] = useState(false)
 
-
-
     let navigate = useNavigate()
-
 
     let Validation = (event, keys) => {
 
@@ -50,7 +47,7 @@ export default function Login() {
                         alert(data.message)
                         console.log(data)
                         // navigate('/dashboard', { state: data.user.fullname })
-                       
+
                         localStorage.setItem("userName", JSON.stringify(data.user.fullname))
                         navigate('/dashboard')
 
@@ -81,9 +78,9 @@ export default function Login() {
                             <input type="email" placeholder="Email" className="form-control p-3 mb-3" value={valid.email} onChange={(e) => Validation(e, "email")} />
                             <input type="text" placeholder="Password" className="form-control p-3 mb-3" value={valid.pwd} onChange={(e) => Validation(e, "pwd")} />
 
-                            <i className="bi bi-google text-primary m-0 p-2 fs-4  m-md-3 p-md-2  m-lg-3 p-lg-4"></i>
-                            <i className="bi bi-facebook text-primary m-0 fs-4 p-2 m-md-3 p-md-2  m-lg-3 p-lg-4"></i>
-                            <i className="bi bi-apple text-primary m-0 fs-4 p-1 m-md-3 p-md-1  m-lg-3 p-lg-2"></i>
+                            <i className="bi bi-google text-primary m-0 p-2 fs-4  m-md-3 p-md-2  m-lg-3 p-lg-4" role='button'></i>
+                            <i className="bi bi-facebook text-primary m-0 fs-4 p-2 m-md-3 p-md-2  m-lg-3 p-lg-4" role='button'></i>
+                            <i className="bi bi-apple text-primary m-0 fs-4 p-1 m-md-3 p-md-1  m-lg-3 p-lg-2" role='button'></i>
                             {check && (
                                 <p className="text-danger">*Invalid  email or Password</p>
                             )}
