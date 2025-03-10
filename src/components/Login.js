@@ -45,9 +45,6 @@ export default function Login() {
 
                     if (data.success === true) {
                         alert(data.message)
-                        console.log(data)
-                        // navigate('/dashboard', { state: data.user.fullname })
-
                         localStorage.setItem("userName", JSON.stringify(data.user.fullname))
                         navigate('/dashboard')
 

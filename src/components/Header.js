@@ -15,32 +15,10 @@ export default function Header({ sideBar, setSidebar }) {
         const storedName = localStorage.getItem("userName");
         console.log(storedName)
         if (storedName) {
-            setAdminName(JSON.parse(storedName)); // Parse stored JSON data
-            console.log(adminName)
+            setAdminName(JSON.parse(storedName))
+            
         }
     }, []);
-
-
-    useEffect(() => {
-        if (url) {
-            fetch(`${url}authentication`, {
-                credentials: "include"
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log("Fetched user:", data)
-                    if (data.success === true) {
-                        // setadminName(data.user)
-                    }
-                })
-                .catch(err => {
-                    console.log("Error in current User ", err)
-                    alert("Trouble in connecting to the Server !!!")
-                })
-        }
-
-    }, [url])
-
 
     let Logout = () => {
         fetch(`${url}logout`, {
@@ -63,7 +41,6 @@ export default function Header({ sideBar, setSidebar }) {
                 alert("Trouble in conncting to Server")
             })
     }
-
 
     return (
         <header className="d-flex justify-content-between align-items-center bg-white p-3 ">

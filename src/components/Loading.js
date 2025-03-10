@@ -14,12 +14,12 @@ export default function Loading() {
 
     return (
         <div className="d-flex vh-100 overflow-x-hidden">
-            {/* Sidebar Component */}
+            {/* Sidebar */}
             <Sidebar sideBar={sideBar} setSidebar={setSidebar} />
 
             {/* Main Content */}
             <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
-                {/* Header Component adminName={adminName} */}
+                {/* Header  */}
                 <Header sideBar={sideBar} setSidebar={setSidebar} />
 
                 {/* Dashboard Cards */}

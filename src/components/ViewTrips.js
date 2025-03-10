@@ -51,7 +51,6 @@ export default function ViewTrips() {
             .then(data => {
                 if (data.success === true) {
                     setEmployee(data.EmployeeData);
-
                 }
                 else {
                     alert(data.message)
@@ -64,7 +63,7 @@ export default function ViewTrips() {
 
     }, [])
 
-    console.log(typeof view.profit)
+ 
     useEffect(() => {
         if (id) {
             fetch(`${url}fetch-trip/${id}`,
@@ -77,8 +76,6 @@ export default function ViewTrips() {
                 .then(data => {
                     if (data.success === true) {
                         setView(data.trip);
-
-
                     }
                     else {
                         alert(data.message)
@@ -108,6 +105,7 @@ export default function ViewTrips() {
             let emp_name = employees.find((emp, index) => emp.id === view.employeeId)
             if (emp_name) {
                 setEmpName(emp_name)
+
             }
         }
 
@@ -217,7 +215,7 @@ export default function ViewTrips() {
                                                     </div>
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
-                                                        <label className="form-label fw-bold fs-6" >{view.profit < 0 ? "Loss : " : "Profit : "} </label>
+                                                        <label className="form-label fw-bold fs-6" >{view.profit <= 0 ? "Loss : " : "Profit : "} </label>
                                                         <p className={` ps-3 d-inline-block `}>{view.profit.toString().replace("-", "")}</p>
                                                     </div>
 

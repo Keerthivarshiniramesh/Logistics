@@ -20,8 +20,6 @@ export default function EditEmployee() {
 
     const url = process.env.REACT_APP_URL
 
-
-
     let { id } = useParams()
     console.log(typeof (id))
 
@@ -57,7 +55,6 @@ export default function EditEmployee() {
                         else {
                             setActive(false)
                         }
-
                     }
                     else {
                         alert(data.message)
@@ -67,21 +64,13 @@ export default function EditEmployee() {
                     console.log("Error : ", err)
                     alert("Trouble in connecting to the Server !!!")
                 })
-
         }
     }, [])
 
-
     const [active, setActive] = useState(false)
 
-    console.log(active)
-
-
     let Update = (e) => {
-        // name, phonenumber, joinedDate, address, identityType, identityNumber, workingStatus
-
         e.preventDefault()
-
         fetch(`${url}Update-employee/${id}`,
             {
                 method: 'PUT',
@@ -97,12 +86,9 @@ export default function EditEmployee() {
                     identityType: edit.identityType, identityNumber: edit.identityNumber, workingStatus: edit.workingStatus,
                     releavedOn: edit.releavedOn
                 })
-
-
             })
             .then(res => res.json())
             .then(data => {
-
                 if (data.success === true) {
                     alert(data.message)
                     console.log(edit)
@@ -116,20 +102,19 @@ export default function EditEmployee() {
                 console.log("Error : ", err)
                 alert("Trouble in connecting to the Server !!!")
             })
-
     }
 
     function Change(e, values) {
-        e.preventDefault();
-        setChange(values);
-
+        e.preventDefault()
+        setChange(values)
         setTimeout(() => {
             if (values === "Home") use("/dashboard");
             else if (values === "Vehicle") use("/vehicle-details");
             else if (values === "Employee") use("/employee_details");
             else if (values === "Trip") use("/trip_details");
-        }, 200);
+        }, 200)
     }
+
     if (edit === null) {
         return (<Loading />)
     }

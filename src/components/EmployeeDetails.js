@@ -69,13 +69,6 @@ export default function EmployeeDetails() {
         if (empId === employees[i].id)
             setEmployeename(employees[i].name)
         setEmployeeid(employees[i].id)
-        // if (employees[i].salaryPerMonth < employees[i].sendTotalSalary || employees[i].remainingSalary < 0) {
-        //     console.log(employees[i].salaryPerMonth)
-        //     console.log(employees[i].sendTotalSalary)
-        //     console.log(employees[i].remainingSalary)
-        //     setView(false)
-        //     alert("Exceed the allotted salary amount.")
-        // }
 
     }
 
@@ -117,8 +110,6 @@ export default function EmployeeDetails() {
                 alert("Trouble in connecting to the Server !!!")
             })
     }
-
-
 
     //Delete the employee
     let Delete = (id) => {

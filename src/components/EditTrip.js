@@ -122,16 +122,8 @@ export default function EditTrip() {
         }
     }, [id])
 
-
-    // vehicleNumber, employeeId, startLocation, endLocation, startTime, endTime, status, expenses, earnedIncome
     let Update = (e) => {
         e.preventDefault()
-        // console.log("Update", {
-        //             vehicleNumber: edit.vehicleNumber.toLowerCase(), employeeId: edit.employeeId, startLocation: edit.startLocation, endLocation: edit.endLocation,
-        //             startTime: edit.startTime, endTime: edit.endTime, status: edit.status, expenses: edit.expenses
-
-        //         })
-
         fetch(`${url}update-trip/${id}`,
             {
                 method: 'POST',
@@ -162,6 +154,7 @@ export default function EditTrip() {
 
 
     }
+    console.log("VEhicle Number", edit.vehicleNumber)
     // Expeneses functions
     const [view, setView] = useState(false)
     let typeRef = useRef(null)
@@ -178,15 +171,13 @@ export default function EditTrip() {
 
         setExpenses((prevState) => ([
             ...prevState,
-            newExpense, // Append instead of replacing
-        ]));
+            newExpense, 
+        ]))
         typeRef.current.value = "";
         amountRef.current.value = "";
         descRef.current.value = "";
         setView(!view)
     }
-
-
 
     function Change(e, values) {
         e.preventDefault();
@@ -240,13 +231,13 @@ export default function EditTrip() {
 
                                                     <div data-mdb-input-init className="form-outline mb-2">
                                                         <label className="form-label fw-bold" htmlFor="form1">Vehicle Number </label>
-                                                        <select className='form-select' aria-label="select vehicle number" value={edit.vehicleNumber.toLowerCase()} onChange={(e) => setEdit({ ...edit, vehicleNumber: e.target.value || '' })}>
+                                                        <select className='form-select' aria-label="select vehicle number" value={edit.vehicleNumber} onChange={(e) => setEdit({ ...edit, vehicleNumber: e.target.value || '' })}>
                                                             <option value=""> Select Vehicle Number</option>
 
                                                             {
                                                                 vehicles && vehicles.map((vehi, index) =>
                                                                 (
-                                                                    <option key={index} value={vehi.vehicleNumber.toLowerCase() || ""}>{vehi.vehicleNumber}</option>
+                                                                    <option key={index} value={vehi.vehicleNumber || ""}>{vehi.vehicleNumber}</option>
                                                                 ))
                                                             }
                                                         </select>

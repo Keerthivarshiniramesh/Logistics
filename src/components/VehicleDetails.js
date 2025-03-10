@@ -4,7 +4,6 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import Loading from './Loading';
 
-
 export default function VehicleDetails() {
 
     const [sideBar, setSidebar] = useState(false);
@@ -21,7 +20,6 @@ export default function VehicleDetails() {
     }, []);
 
     let [vehicles, setVehicle] = useState(null)
-
 
     useEffect(() => {
         fetch(`${url}fetch-vehicle`,

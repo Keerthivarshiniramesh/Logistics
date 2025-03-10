@@ -69,8 +69,7 @@ export default function Vehicle() {
       .catch(err => {
         console.log("Error : ", err)
         alert("Trouble in connecting to the Server !!!")
-      }
-      )
+      })
   }
 
   function Change(e, values) {

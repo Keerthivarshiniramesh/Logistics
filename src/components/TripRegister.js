@@ -46,7 +46,6 @@ export default function TripRegister() {
     }, [])
     if (employees) {
         var emp_filter = employees.filter(e => e.workingStatus === true)
-
     }
 
     let [vehicles, setVehicle] = useState(null)
@@ -117,7 +116,6 @@ export default function TripRegister() {
         typeRef.current.value = ""
         amountRef.current.value = ""
         descRef.current.value = ""
-
     }
 
     const handleExpenseRemoval = (i) => {

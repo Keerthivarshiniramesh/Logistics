@@ -72,13 +72,7 @@ export default function TripDetails() {
 
     }, [])
 
-    // useEffect(() => {
-    //     if (trips.employeeId === employees.id) {
-    //         setEmpname(employees.name)
-    //     }
-
-    // }, [])
-
+   
     //Delete the trip
     let Delete = (id) => {
         fetch(`${url}delete-trip/${id}`,
@@ -101,7 +95,6 @@ export default function TripDetails() {
                 alert("Trouble in connecting to the Server !!!")
             })
     }
-
 
     function Change(e, values) {
         e.preventDefault();

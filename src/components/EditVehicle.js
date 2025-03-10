@@ -21,10 +21,10 @@ export default function EditVehicle() {
     }, []);
 
     const formatDate = (isoString) => {
-        if (!isoString) return ""; // Handle empty values
-        const date = new Date(isoString);
-        return isNaN(date.getTime()) ? "" : date.toISOString().split('T')[0]; // Validate date before formatting
-    };
+        if (!isoString) return "" // Handle empty values
+        const date = new Date(isoString)
+        return isNaN(date.getTime()) ? "" : date.toISOString().split('T')[0] // Validate date before formatting
+    }
 
     let [edit, setEdit] = useState({
 
@@ -34,7 +34,7 @@ export default function EditVehicle() {
         yearOfManufacture: '',
         type: '',
         desc: '',
-        lastServiceDate: '', // Convert to YYYY-MM-DD
+        lastServiceDate: '', 
         nextServiceDate: ''
 
     })
@@ -52,11 +52,11 @@ export default function EditVehicle() {
                 .then(res => res.json())
                 .then(data => {
                     if (data.success === true) {
-                        // setEdit(data.vehicleInfo);
+                       
                         setEdit({
                             ...data.vehicleInfo,
                             nextServiceDate: formatDate(data.vehicleInfo.nextServiceDate),
-                            // lastServiceDate: formatDate(data.vehicleInfo.lastServiceDate),
+                          
                         });
 
                     }

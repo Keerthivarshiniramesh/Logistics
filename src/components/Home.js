@@ -4,7 +4,7 @@ import Header from "./Header";
 import vehicle from "../assest/vehicle.jpg";
 import employee from "../assest/employee.png";
 import trip from "../assest/trips.jpg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
     const [sideBar, setSidebar] = useState(false);
@@ -12,20 +12,11 @@ export default function Home() {
     const [change, setChange] = useState("Home");
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-    // const url = process.env.REACT_APP_URL
-
-    let location = useLocation()
-
-    const adminName = location.state || 'Admin'
-    console.log(adminName)
-
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-
-
 
     function Change(e, values) {
         e.preventDefault();
@@ -46,7 +37,7 @@ export default function Home() {
 
             {/* Main Content */}
             <div className="flex-grow-1 d-flex flex-column bg-light" style={{ marginLeft: sideBar || window.innerWidth >= 768 ? "250px" : "0" }}>
-                {/* Header Component adminName={adminName} */}
+                {/* Header Component  */}
                 <Header sideBar={sideBar} setSidebar={setSidebar} />
 
                 {/* Dashboard Cards */}
